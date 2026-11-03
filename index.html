@@ -1505,7 +1505,12 @@ Gehe davon aus, dass die Nutzerin wenig Zeit hat und keinen Technik-Hintergrund 
 Stelle in dieser Nachricht keine weiteren Fragen.
 
 **Schritt 2: Auswerten.**
-- Liegen Angaben vor (Abschnitt „Meine Angaben“, ein früherer Plan oder Angaben im Chat): Fasse in höchstens fünf Zeilen zusammen, was die Nutzerin gerade gesagt hat und was du aus den Angaben übernimmst. Nenne den Modus ausdrücklich, zum Beispiel „Ich plane im Modus Grob.“ Ergänze: „Wenn davon etwas nicht mehr stimmt, sag es kurz, dann passe ich es an.“ Stelle danach in derselben Nachricht den ersten Block, für den Angaben fehlen. Das ist die einzige Ausnahme von der Regel „ein Block pro Nachricht“. Sind alle Blöcke beantwortet, frage nur noch das Ausgabeformat, falls es fehlt, und beginne dann mit dem Plan.
+- Liegen Angaben vor (Abschnitt „Meine Angaben“, ein früherer Plan oder Angaben im Chat):
+  1. Prüfe zuerst, welche Fragen des gewählten Modus beantwortet sind. Als beantwortet gilt auch „nichts“, „keine“ oder „weiß nicht“. Steht am Ende der Angaben eine Zeile „Vollständigkeit“ oder „Noch offen“, nutze sie als Hilfe und prüfe trotzdem selbst.
+  2. Fasse in höchstens acht Zeilen zusammen, was die Nutzerin gerade gesagt hat und was du aus den Angaben übernimmst. Jedes Thema kommt kurz vor: Kinder, Konzept (Richtung, Thema, Verbrauchen, Herkunft), Interessen, Rahmen, Verpackung und Ausschlüsse, Alltag und Hindernisse, Öffnung und Termine, Ausgabe. Nenne den Modus ausdrücklich, zum Beispiel „Ich plane im Modus Grob.“ Ergänze: „Wenn davon etwas nicht mehr stimmt, sag es kurz, dann passe ich es an.“
+  3. Fehlt eine wesentliche Angabe (siehe Schritt 3), stelle danach in derselben Nachricht den ersten Block, für den sie fehlt. Das ist die einzige Ausnahme von der Regel „ein Block pro Nachricht“. Stelle nur Fragen aus den Blöcken unten und erfinde keine eigenen Blöcke.
+  4. Fehlen nur unwesentliche Angaben, kennzeichne sie als Annahmen und beginne direkt mit dem Plan.
+  5. Ist alles beantwortet, beginne direkt mit dem Plan. Frage das Ausgabeformat nur, wenn es fehlt.
 - Liegen keine Angaben vor: Nenne in ein bis zwei Zeilen, was du aus ihrer Antwort mitnimmst. Frage danach, in einer eigenen Nachricht ohne weitere Fragen, welchen Modus sie möchte:
 
 A) Grob — „Ich brauche einen Rahmen und besorge selbst, was ich finde.“
@@ -1533,6 +1538,7 @@ Hat die Nutzerin eigene Ideen oder eine Liste genannt, sage in einem Satz, dass 
 - Nimm kurze oder ungenaue Antworten an. Für fehlende Angaben gilt Schritt 3 unter „Start“.
 - Frage nur nach, wenn die Angabe den Plan wesentlich verändert, bei Widersprüchen oder bei unklaren Mengen.
 - Frage nichts, was im Gespräch oder in den Angaben schon steht.
+- Stelle nur Fragen aus den Blöcken unten. Erfinde keine eigenen Blöcke oder Themen.
 
 ## Die Blöcke
 Gehe die Blöcke in dieser Reihenfolge durch. Im Modus Grob stellst du nur die Fragen mit „(Grob)“, im Modus Detail alle. Überspringe Blöcke, die vollständig beantwortet sind.
@@ -2685,9 +2691,34 @@ function baueAngaben() {
   return zeilen.join('\n');
 }
 
+/* Schlusszeile „Vollständigkeit“: sagt dem KI-Modell, was beantwortet ist. */
+function vollstaendigkeitsZeile() {
+  const offen = [];
+  let wesentlich = false;
+  bloecke.forEach(function (b) {
+    b.fragen.forEach(function (f) {
+      if (!sichtbar(f)) return;   // Detail-Felder und Fragen, die nicht zutreffen
+      const wert = f.ausgabeWert ? f.ausgabeWert() : antwortText(f);
+      if (wert !== 'nicht angegeben') return;
+      offen.push(f.ausgabe);
+      if (f.pflicht) wesentlich = true;
+    });
+  });
+  if (!offen.length) {
+    return 'Vollständigkeit: Alle Fragen für den Modus ' + modusName() +
+      ' sind beantwortet. Beginne nach der Zusammenfassung direkt mit dem Plan.';
+  }
+  if (wesentlich) {
+    return 'Noch offen (wesentlich): ' + offen.join(', ') + '.';
+  }
+  return 'Noch offen (unwesentlich): ' + offen.join(', ') +
+    '. Triff dafür Annahmen und beginne nach der Zusammenfassung direkt mit dem Plan.';
+}
+
 function gesamtText() {
   return modusHinweis() + '\n\n' +
-    AVA_TEXT.replace(/\s+$/, '') + '\n\n' + baueAngaben() + '\n';
+    AVA_TEXT.replace(/\s+$/, '') + '\n\n' + baueAngaben() + '\n\n' +
+    vollstaendigkeitsZeile() + '\n';
 }
 
 /* ── D) Ergebnis ─────────────────────────────────────────────────── */
