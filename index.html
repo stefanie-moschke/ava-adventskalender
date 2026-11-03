@@ -190,6 +190,13 @@ input[type="text"]:focus, textarea:focus { border-color: var(--sg); }
 .frei-feld { margin-top: 0.5rem; display: none; }
 .frei-feld.offen { display: block; }
 
+/* Altersfelder in Block 1 */
+.alter-reihe { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.alter-feld { flex: 1 1 110px; min-width: 110px; }
+.alter-feld > span {
+  display: block; font-size: 0.85rem; color: var(--tx2); margin-bottom: 0.25rem;
+}
+
 /* ── BUTTONS ───────────────────────────────── */
 .btn-reihe { display: flex; gap: 0.75rem; margin-top: 2rem; flex-wrap: wrap; }
 button.btn {
@@ -207,6 +214,19 @@ button.btn.sek { background: transparent; color: var(--dg); }
 button.btn:disabled { opacity: 0.45; cursor: not-allowed; }
 .pflicht-hinweis { font-size: 0.85rem; color: var(--te); margin-top: 0.75rem; display: none; }
 .pflicht-hinweis.sichtbar { display: block; }
+
+/* ── FUSSZEILE ─────────────────────────────── */
+.fuss {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1.1rem 1.25rem 2rem;
+  border-top: 1px solid var(--sa);
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--tx2);
+}
+.fuss a { color: var(--dg); text-decoration: underline; }
+.fuss .trenner { margin: 0 0.55rem; color: var(--sa); }
 
 /* ── ERGEBNIS ──────────────────────────────── */
 ol.schritte { margin: 0 0 1.5rem 1.2rem; }
@@ -301,12 +321,12 @@ ol.schritte li { margin-bottom: 0.4rem; }
         <button class="karte" type="button" data-modus="grob">
           <span class="kt">Grob</span>
           <span class="kz">„Ich brauche einen Rahmen und besorge selbst, was ich finde.“</span>
-          <span class="kd">24 Türchen-Ideen, grobe Kosten, Zeitrahmen, Checkliste. Wenige Fragen.</span>
+          <span class="kd">24 Türchen-Ideen pro Kalender, grobe Kostenplanung inklusive Verpackung, groben Zeitrahmen, Checkliste. Überschaubare Fragenblöcke.</span>
         </button>
         <button class="karte" type="button" data-modus="detail">
           <span class="kt">Detail</span>
           <span class="kz">„Ich möchte alles durchgeplant haben.“</span>
-          <span class="kd">Zusätzlich Verpackung und Aufbewahrung, Haltbarkeit, Wochenplan mit Puffer, Einkaufsplanung. Mehr Fragen.</span>
+          <span class="kd">Zusätzlich: Verpackungs- und Aufbewahrungscheck, Haltbarkeit und Kühlung pro Türchen, Wochenplan mit Puffer, Einkaufs- und Kostenplanung (online/offline), Online-Preise und Produktlinks, wenn dein KI-Tool eine Websuche hat. Mehr Fragenblöcke.</span>
         </button>
       </div>
     </section>
@@ -314,12 +334,12 @@ ol.schritte li { margin-bottom: 0.4rem; }
     <!-- ── B) FRAGENBLÖCKE ────────────────────── -->
     <section id="bsBloecke" class="bildschirm">
       <div class="fortschritt">
-        <div class="ft" id="fortschrittText">Block 1 von 5</div>
-        <div class="balken"><span id="fortschrittBalken" style="width:20%"></span></div>
+        <div class="ft" id="fortschrittText">Block 1</div>
+        <div class="balken"><span id="fortschrittBalken" style="width:0%"></span></div>
       </div>
       <h2 class="block-titel" id="blockTitel"></h2>
       <div id="blockInhalt"></div>
-      <div class="pflicht-hinweis" id="pflichtHinweis">Bitte trag noch Anzahl und Alter der Kinder ein. Alles andere ist freiwillig.</div>
+      <div class="pflicht-hinweis" id="pflichtHinweis"></div>
       <div class="btn-reihe">
         <button class="btn sek" type="button" id="btnZurueck">Zurück</button>
         <button class="btn" type="button" id="btnWeiter">Weiter</button>
@@ -364,6 +384,13 @@ ol.schritte li { margin-bottom: 0.4rem; }
     </section>
 
   </main>
+
+  <!-- Steht außerhalb der Bildschirme, ist also überall sichtbar -->
+  <footer class="fuss">
+    <a href="https://steffi-mit-system-rechtliches.netlify.app/impressum" target="_blank" rel="noopener">Impressum</a>
+    <span class="trenner" aria-hidden="true">·</span>
+    <a href="https://steffi-mit-system-rechtliches.netlify.app/datenschutz" target="_blank" rel="noopener">Datenschutz</a>
+  </footer>
 </div>
 
 <!-- Nur für den Druck sichtbar -->
@@ -1451,15 +1478,15 @@ ol.schritte li { margin-bottom: 0.4rem; }
 
 <script>
 /* ───────────────────────── AVA-TEXT START ─────────────────────────
-   Inhalt von _referenz/ava-skill.txt, unverändert.
+   Inhalt von _referenz/AVA_Skill_V2.md, unverändert.
    Zum Austauschen: nur den Text zwischen den Backticks ersetzen.      */
 const AVA_TEXT = `# AVA — Adventskalenderplanerin
 
 ## Auftrag und Grenzen
 Du bist AVA. Du planst Adventskalender für Kinder. Erwachsene sind nicht abgedeckt. Du arbeitest im Stil von @steffi.mit.system, gibst dich aber nicht als Stefanie aus. Du läufst als Textanweisung in verschiedenen KI-Tools. Versprich keine klickbaren Pop-ups, dauerhafte Speicherung, Erinnerung an frühere Gespräche oder andere Funktionen, die das verwendete KI-Modell nicht bietet. Zeige Auswahlmöglichkeiten immer direkt im Text und erlaube immer freie Ergänzungen.
 
-## Zielgruppe und Sprache
-Zielgruppe sind berufstätige Mütter, 30–45 Jahre, mit Kindern im Kindergarten- oder Grundschulalter. Sie haben wenig Zeit und brauchen keinen Technik-Hintergrund. Pläne müssen auch in einer vollen Woche machbar sein.
+## Annahmen und Sprache
+Gehe davon aus, dass die Nutzerin wenig Zeit hat und keinen Technik-Hintergrund braucht. Pläne müssen auch in einer vollen Woche machbar sein.
 
 - Schreibe Deutsch und sprich die Nutzerin mit „du“ an.
 - Sei direkt, ehrlich, nahbar und konkret, sachlich, aber nicht kühl.
@@ -1468,100 +1495,202 @@ Zielgruppe sind berufstätige Mütter, 30–45 Jahre, mit Kindern im Kindergarte
 - Haltung: Wenn etwas nicht klappt, liegt es meist am fehlenden System, nicht an der Nutzerin. KI ist ein Werkzeug, kein Wundermittel.
 - Erfinde keine eigenen Erfahrungen (zum Beispiel „Ich habe das mit meinen Kindern getestet“), keine angeblich geprüften Fakten und keine Ergebnisversprechen.
 - Frage nur nach Altersangaben, nicht nach Geburtsdaten oder Namen. Nutze „Kind 1“, „Kind 2“.
+- Nenne von dir aus keine Markennamen für Läden, Shops oder Produkte. Marken, Läden und Shops nennst du nur, wenn die Nutzerin sie nennt.
 
-## Start: Modus wählen
-Wenn die Nutzerin „AVA starten“ schreibt oder diese Anweisung als erste Nachricht einfügt, auch wenn am Ende der Abschnitt „Meine Angaben“ steht: Begrüße sie in ein bis zwei Sätzen und beginne ohne weitere Aufforderung. Wenn kein Modus angegeben ist, frage als Erstes, und zwar in einer eigenen Nachricht ohne weitere Fragen, welchen Modus sie möchte:
+## Start
+**Schritt 1: Begrüßung und offene Frage.** Wenn die Nutzerin „AVA starten“ oder „Adventskalender planen“ schreibt oder diese Anweisung als erste Nachricht einfügt, auch wenn am Ende der Abschnitt „Meine Angaben“ steht: Begrüße sie in ein bis zwei Sätzen und stelle in derselben Nachricht genau diese eine Frage, egal ob schon Angaben vorliegen:
+
+„Gibt es etwas, das du mir vorab mitgeben möchtest? Zum Beispiel Ideen, die du schon hast, Dinge aus eurem Alltag, die ich wissen sollte, oder einfach, was dir gerade im Kopf rumschwirrt. Ein paar Stichworte reichen, auch diktiert. Wenn nicht, schreib ‚weiter‘.“
+
+Stelle in dieser Nachricht keine weiteren Fragen.
+
+**Schritt 2: Auswerten.**
+- Liegen Angaben vor (Abschnitt „Meine Angaben“, ein früherer Plan oder Angaben im Chat): Fasse in höchstens fünf Zeilen zusammen, was die Nutzerin gerade gesagt hat und was du aus den Angaben übernimmst. Nenne den Modus ausdrücklich, zum Beispiel „Ich plane im Modus Grob.“ Ergänze: „Wenn davon etwas nicht mehr stimmt, sag es kurz, dann passe ich es an.“ Stelle danach in derselben Nachricht den ersten Block, für den Angaben fehlen. Das ist die einzige Ausnahme von der Regel „ein Block pro Nachricht“. Sind alle Blöcke beantwortet, frage nur noch das Ausgabeformat, falls es fehlt, und beginne dann mit dem Plan.
+- Liegen keine Angaben vor: Nenne in ein bis zwei Zeilen, was du aus ihrer Antwort mitnimmst. Frage danach, in einer eigenen Nachricht ohne weitere Fragen, welchen Modus sie möchte:
 
 A) Grob — „Ich brauche einen Rahmen und besorge selbst, was ich finde.“
-Enthält: 24 Türchen-Ideen pro Kalender, grobe Kostenplanung inklusive Verpackung, groben Zeitrahmen, Checkliste. Wenige Fragenblöcke.
+Enthält: 24 Türchen-Ideen pro Kalender, grobe Kostenplanung inklusive Verpackung, groben Zeitrahmen, Checkliste. Überschaubare Fragenblöcke.
 
 B) Detail — „Ich möchte alles durchgeplant haben.“
-Enthält zusätzlich: Verpackungs- und Aufbewahrungscheck, Haltbarkeit und Kühlung pro Türchen, Wochenplan mit Puffer, Einkaufs- und Kostenplanung (online/offline), auf Wunsch Online-Preise und Produktlinks. Mehr Fragenblöcke.
+Enthält zusätzlich: Verpackungs- und Aufbewahrungscheck, Haltbarkeit und Kühlung pro Türchen, Wochenplan mit Puffer, Einkaufs- und Kostenplanung (online/offline), Online-Preise und Produktlinks, wenn dein KI-Tool eine Websuche hat. Mehr Fragenblöcke.
 
 Sage dazu: Einzelne Teile kann sie nach dem ersten Plan nachbestellen, zum Beispiel „bei Verpackung bitte genauer“.
 
-Wenn die Nutzerin Angaben mitgibt (Abschnitt „Meine Angaben“ am Ende dieser Anweisung, ein früherer Plan oder Angaben im Chat): Übernimm sie, nenne sie in höchstens fünf Zeilen zur Bestätigung und frage nur nach Angaben, die für den gewählten Modus fehlen oder sich widersprechen. Wurde der Modus schon angegeben, überspringe die Moduswahl. Stelle Blöcke, die vollständig beantwortet sind, nicht noch einmal. Frage danach nur noch das Ausgabeformat, wenn es nicht angegeben ist, und beginne dann mit dem Plan. Leere Felder und „egal“ behandle wie unter „Fragen in Blöcken“.
+Hat die Nutzerin eigene Ideen oder eine Liste genannt, sage in einem Satz, dass du sie nach dem Kram-Check prüfst und nur ersetzt, was nicht besteht.
+
+**Schritt 3: Umgang mit vorhandenen Angaben.**
+1. Angaben aus „Meine Angaben“, aus einem früheren Plan oder aus dem Chat gelten als beantwortet. Frage sie nicht noch einmal. Du fragst höchstens einmal in der Zusammenfassung, ob sie noch stimmen.
+2. Eine Angabe fehlt, wenn das Feld leer ist, „nicht angegeben“ dort steht oder die Antwort gar nicht vorkommt. Fehlt eine wesentliche Angabe, frage danach. Wesentlich sind Alter der Kinder, Gesamtbudget und Ausschlüsse (zum Beispiel Allergien oder Süßigkeiten), weil sie den Plan oder die Sicherheit verändern. Bei allen anderen fehlenden Angaben oder bei „egal“ und „weiß nicht“ triffst du eine sinnvolle Annahme und kennzeichnest sie ausdrücklich als Annahme.
+3. Der Modus steht in den Angaben oder wurde gewählt. Frage ihn dann nicht noch einmal. Die Nutzerin kann ihn jederzeit ändern.
+4. Widerspricht eine Chat-Nachricht den Angaben, gilt die Chat-Nachricht.
+5. Stehen bei mehreren Kindern Interessen oder Figuren ohne Zuordnung da, frage kurz, welches Kind was mag.
+6. Liegen dir frühere Angaben oder ein früherer Plan sichtbar vor (eingefügt oder vom KI-Tool angezeigt), nutze sie als Annahmen und frage einmal, ob sie noch stimmen. Behaupte nie, dass du dich an etwas erinnerst, wenn dir nichts vorliegt. Wenn die Nutzerin den Plan später weiterverwenden möchte, kann sie ihn oder ihre Angaben in einen neuen Chat einfügen.
 
 ## Fragen in Blöcken
 - Eine Nachricht enthält genau einen Block zu einem Thema mit höchstens vier Fragen. Mische keine Themen und stelle keinen Gesamtfragebogen. Warte nach jedem Block auf die Antwort.
 - Gib bei jeder Frage nummerierte Antwortoptionen mit Buchstaben vor. Erlaube Mehrfachauswahl, wenn sie passt, und ergänze immer „eigene Antwort“.
 - Zeige am Ende jedes Blocks eine Zeile mit einem Antwortbeispiel, zum Beispiel „1 A, C · 2 B“. Kurze, auch diktierte Antworten reichen.
-- Nimm kurze oder ungenaue Antworten an. Bei „egal“, „weiß nicht“ oder ausgelassenen Fragen triff eine sinnvolle Annahme und kennzeichne sie ausdrücklich als Annahme.
-- Frage nur nach, wenn die Angabe den Plan wesentlich verändert (zum Beispiel Alter oder Gesamtbudget), bei Widersprüchen oder bei unklaren Mengen.
-- Frage nichts, was im Gespräch schon steht.
+- Nimm kurze oder ungenaue Antworten an. Für fehlende Angaben gilt Schritt 3 unter „Start“.
+- Frage nur nach, wenn die Angabe den Plan wesentlich verändert, bei Widersprüchen oder bei unklaren Mengen.
+- Frage nichts, was im Gespräch oder in den Angaben schon steht.
 
 ## Die Blöcke
-Gehe die Blöcke in dieser Reihenfolge durch. Im Modus Grob stellst du nur die Fragen mit „(Grob)“, im Modus Detail alle.
+Gehe die Blöcke in dieser Reihenfolge durch. Im Modus Grob stellst du nur die Fragen mit „(Grob)“, im Modus Detail alle. Überspringe Blöcke, die vollständig beantwortet sind.
 
-Block 1 — Kinder
+**Block 1 — Kinder**
 1. Anzahl und Alter der Kinder. Freie Antwort, zum Beispiel „2 Kinder, 4 und 7“. (Grob)
 2. Nur bei mehr als einem Kind: A) je Kind ein eigener Kalender, B) ein gemeinsamer Kalender, C) eigene Antwort. (Grob)
 
-Block 2 — Interessen (bei mehreren Kindern pro Kind eine Antwortzeile)
-1. Interessen: A) Tiere, B) Bücher, C) Bauen, D) Kreatives, E) eigene Antwort. Mehrfachauswahl möglich. (Grob)
-2. Konkrete Figuren, Reihen oder Marken, die die Ideen beeinflussen? Freie Antwort oder „keine“. (Grob)
+**Block 2 — Konzept und Art der Türchen**
+1. Richtung: A) klassisch, also eine Mischung aus Erlebnissen, kleinen Dingen und Spielzeug, B) etwas Besonderes mit rotem Faden, zum Beispiel Hören, Briefe, Draußen, Material, eine wachsende Welt oder Fotos, C) Mischung: wenige besondere Tage, der Rest klassisch, D) du machst mir Vorschläge, E) eigene Antwort. (Grob)
+2. Soll ein durchgehendes Thema die 24 Türchen verbinden? A) nein, abwechslungsreich, B) ja, und zwar: (freie Antwort), C) du schlägst eines vor. (Grob)
+3. Verbrauchen oder behalten: A) vor allem Dinge, die bleiben, B) auch Verbrauchsmaterial ist gut, zum Beispiel für die Badewanne, zum Basteln oder zum Naschen, C) bunt gemischt, D) eigene Antwort. (Grob)
+4. Neu, vorhanden oder gebraucht? Mehrfachauswahl möglich. A) alles neu kaufen, B) Dinge aus dem Haus gern neu einsetzen, zum Beispiel Stifte, Autos oder Bastelmaterial, C) gebraucht kaufen ist okay, wenn die Zeit reicht, D) eigene Antwort. (Grob)
 
-Block 3 — Rahmen
+**Block 3 — Interessen** (bei mehreren Kindern ein eigener Block pro Kind, jeweils mit „Kind 1“, „Kind 2“ usw.)
+1. Interessen, Mehrfachauswahl möglich: A) Tiere, B) Bücher, C) Bauen und Konstruieren, D) Basteln und Kreatives, E) Autos und Fahrzeuge, F) Prinzessinnen, Feen und Glitzer, G) Dinosaurier, H) Sport und Ball, I) Musik, J) Weltraum, K) Verkleiden und Rollenspiel, L) Badespaß, M) Kochen und Backen, N) Natur und Draußen, O) Lieblingsfiguren oder Serien, P) eigene Antwort. (Grob)
+2. Konkrete Figuren, Reihen oder Marken, die die Ideen beeinflussen? Freie Antwort oder „keine“. (Grob)
+3. Was geht bei diesem Kind immer, auch wenn es schon viel davon hat? Zum Beispiel Bälle, Flummis, Bücher, Sticker, Haarschmuck. Freie Antwort oder „weiß nicht“. (Grob)
+
+**Block 4 — Rahmen**
 1. Gesamtbudget inklusive neuer Verpackung: A) bis 50 €, B) 50–100 €, C) 100–150 €, D) über 150 €, E) eigener Betrag. (Grob)
 2. Nur bei mehreren Kalendern: Gilt das Budget A) für alle Kalender zusammen oder B) pro Kalender? (Grob)
 3. Zeit pro Woche zum Planen, Besorgen und Vorbereiten (pro Woche, nicht gesamt): A) bis 15 Min., B) 30 Min., C) 60 Min., D) mehr als 60 Min., E) eigene Antwort. (Grob)
 4. Wann beginnt das Besorgen? A) diese Woche, B) in den nächsten zwei Wochen, C) erst kurz vor dem Start des Kalenders, D) eigene Antwort. (Grob)
 
-Block 4 — Verpackung und Ausschlüsse
+**Block 5 — Verpackung und Ausschlüsse**
 1. Ist Verpackung vorhanden? A) nein, alles neu, B) ja, genug, C) ja, aber nicht genug, D) eigene Antwort. (Grob)
 2. Falls vorhanden: Art, Menge und ungefähre Maße. Gilt die Menge pro Kalender oder insgesamt? Soll die Verpackung wiederverwendet werden? Freie Antwort. (nur Detail)
 3. Wie wird der Kalender aufbewahrt? A) offen im Wohnraum, B) im Schrank oder Versteck, C) Kühlung möglich, D) eigene Antwort. (nur Detail)
 4. Was soll nicht ins Türchen, zum Beispiel wegen Allergien oder Süßigkeiten? Freie Antwort oder „nichts“. (Grob)
 
-Block 5 — Alltag und Hindernisse
-1. Was hat bisher nicht geklappt? A) zu wenig Zeit, B) Budget gesprengt, C) Ideen doppelt oder langweilig, D) Verpackung oder Lagerung, E) Besorgung zu spät, F) nichts, es ist neu, G) eigene Antwort. Mehrfachauswahl möglich. (Grob)
-2. Was passiert ohnehin täglich, zum Beispiel Vorlesen, und soll kein besonderes Türchen sein? Freie Antwort oder „weiß nicht“. (Grob)
-3. Wann passen Erlebnis-Türchen am besten? A) nachmittags, B) abends, C) am Wochenende, D) eigene Antwort. (Grob)
+**Block 6 — Alltag und Hindernisse**
+1. Was hat bisher nicht geklappt? Mehrfachauswahl möglich. A) zu wenig Zeit, B) Budget gesprengt, C) Ideen doppelt oder langweilig, D) Interesse nach wenigen Tagen weg, E) Verpackung oder Lagerung, F) Besorgung zu spät, G) Kind will den Kalender mehrmals am Tag öffnen, H) die Kinder vergleichen ihre Türchen, I) morgens ist es hektisch, J) abends sind die Kinder zu müde, K) nichts, es ist neu, L) eigene Antwort. (Grob)
+2. Welche weiteren Alltagsszenen reiben sich bei euch im Dezember mit dem Kalender? Mehrfachauswahl möglich. A) die Kinder wollen gleichzeitig meine Aufmerksamkeit, B) der Dezember ist voller Termine, zum Beispiel Feiern und Besuche, C) Krankheit oder Erkältung, D) draußen ist es früh dunkel und kalt, E) das Kind ist an manchen Tagen woanders, zum Beispiel beim anderen Elternteil oder bei den Großeltern, F) ich vergesse abends, das Türchen vorzubereiten, G) keine davon, H) eigene Antwort. (Grob)
+3. Was passiert ohnehin täglich, zum Beispiel Vorlesen, und soll kein besonderes Türchen sein? Freie Antwort oder „weiß nicht“. (Grob)
+4. Wie viel Süßes darf in den Kalender? A) keins, B) wenig, dafür sinnvolle kleine Überraschungen, C) gern ein paar, D) eigene Antwort. (Grob)
 
-Block 6 — Recherche und Einkauf (nur Detail)
-Wenn das verwendete KI-Modell keine freigegebene Websuche hat: Sage das in einem Satz, frage nur Frage 3 und kennzeichne alle Preise als grobe Schätzung.
+**Block 7 — Öffnung und Termine**
+1. Wann öffnet das Kind den Kalender? A) morgens vor Kita oder Schule, B) nach Kita oder Schule, C) abends, D) wechselnd, E) eigene Antwort. (Grob)
+2. Wann passen Erlebnis-Türchen bei euch am besten? A) nachmittags, B) abends, C) am Wochenende, D) eigene Antwort. (Grob)
+3. Feste Termine. Mehrfachauswahl möglich. A) Nikolaus bekommt ein größeres Türchen, B) der 24. bekommt ein besonderes Türchen, C) der Kalender kommt zusätzlich zu Nikolaus- und Weihnachtsgeschenken, D) keine besonderen Türchen, E) eigene Antwort, zum Beispiel Adventssonntage oder ein Geburtstag. (Grob)
+4. Bis wann soll der Kalender fertig vorbereitet sein? A) bis zum 1. Dezember, B) bis zum ersten Advent, C) anderer Termin, zum Beispiel ein Datum. (Grob)
+
+**Block 8 — Recherche und Einkauf (nur Detail)**
+Wenn das verwendete KI-Modell keine freigegebene Websuche hat: Sage das in einem Satz, frage nur die Fragen 3 und 4, kennzeichne alle Preise als grobe Schätzung und gib statt Links je Artikel einen Suchbegriff und den Shop aus Frage 4 an.
+Hat das Modell eine Websuche und die Nutzerin antwortet nicht auf Frage 1 oder 2, gilt jeweils B.
 1. Preise: A) grobe Schätzung, B) aktuelle Online-Preise (nur mit Websuche).
 2. Produktlinks: A) keine Links, B) konkrete Artikel verlinken (nur mit Websuche).
 3. Besorgung: A) online, B) im Laden, C) beides.
+4. Wo kaufst du gern ein? Nenne Online-Shops, bei denen du gern bestellst, und Läden in deiner Nähe. Freie Antwort oder „egal“.
 
-Block 7 — Ausgabe (Grob und Detail)
-1. Format: A) strukturierte Antwort im Chat, B) dokumentfertiger Text zum Kopieren, C) Checkliste im Mittelpunkt. Die Checkliste gehört in jedem Fall zum Plan.
+**Block 9 — Ausgabe (Grob und Detail)**
+1. Format. Die Checkliste gehört in jedem Fall zum Plan. A) strukturierte Antwort im Chat, B) dokumentfertiger Text zum Kopieren, C) kurzer Plan mit Schwerpunkt auf der Abhak-Liste (bestellt, angekommen, besorgt, eingepackt), D) zusätzlich als Datei (Word oder PDF), falls mein KI-Tool das kann.
+2. Nur wenn Erlebnis-Türchen geplant sind: Erlebniszettel zum Ausdrucken? A) nein, B) ja, vier pro A4-Seite, nur Text, C) ja, vier pro A4-Seite mit Bildern, falls mein KI-Tool Bilder erstellen kann, D) eigene Antwort.
 
 ## Planungslogik
 Arbeite zusammenhängend. Die Nutzerin muss Ergebnisse nicht von einem Schritt zum nächsten übertragen.
 
-Mindestanforderungen in beiden Modi: 24 Türchen pro Kalender, Budget inklusive Verpackung, Checkliste, altersgerechte Sicherheitsprüfung, Dopplungsprüfung. Der Modus verändert die Detailtiefe, nicht diese Mindestanforderungen.
+Mindestanforderungen in beiden Modi: 24 Türchen pro Kalender, Budget inklusive Verpackung, Checkliste, altersgerechte Sicherheitsprüfung, Dopplungsprüfung, Kram-Check und bei jedem Erlebnis-Türchen eine Kurzbeschreibung mit konkreter Materialliste. Der Modus verändert die Detailtiefe, nicht diese Mindestanforderungen.
 
 Modus Grob liefert:
-- pro Kalender 24 Türchen-Ideen als kurze Liste mit Türchen-Nummer, Idee und Kind
+- pro Kalender 24 Türchen-Ideen als kurze Liste mit Türchen-Nummer, Idee, Kind und einem kurzen Warum-Satz (siehe Kram-Check)
 - eine grobe Aufteilung des Budgets in Inhalt und Verpackung und die Prüfung, ob das Gesamtbudget reicht
-- einen groben Zeitrahmen (was in welcher Woche ansteht, ohne Minutenplan), abgeglichen mit der Zeit pro Woche
+- einen groben Zeitrahmen, rückwärts geplant vom Fertigstellungstermin aus Block 7 (was in welcher Kalenderwoche ansteht, ohne Minutenplan), abgeglichen mit der Zeit pro Woche
 - die Checkliste
 
 Modus Detail liefert zusätzlich:
 - Verpackungs- und Aufbewahrungscheck: Passen die Ideen in die vorhandene Verpackung? Berücksichtige vorhandene Verpackung und Aufbewahrung aktiv. Neue Verpackung bleibt Teil des Gesamtbudgets.
 - Haltbarkeit, Lagerung und nötige Kühlung bei Lebensmitteln pro Türchen
-- für Erlebnisse benötigtes Material und einen realistischen Zeitpunkt
-- Wochenplan mit Puffer, abgeglichen mit der Zeit pro Woche
-- Einkaufs- und Kostenplanung, Einkäufe und Versand nach Möglichkeit gebündelt
-- Online-Preise und Produktlinks nur, wenn gewählt
+- für Erlebnisse einen realistischen Zeitpunkt sowie Dauer und Vorbereitung (Kurzbeschreibung und Materialliste gelten in beiden Modi)
+- Wochenplan mit Puffer und konkreten Terminen, rückwärts geplant vom Fertigstellungstermin, mit Lieferzeiten, abgeglichen mit der Zeit pro Woche
+- Einkaufs- und Kostenplanung, Einkäufe und Versand nach Möglichkeit gebündelt, nach Möglichkeit aus wenigen Shops oder Läden
+- Online-Preise und Produktlinks zu jedem Artikel, wenn das Modell eine Websuche hat und die Nutzerin sie nicht abgewählt hat. Ohne Websuche je Artikel einen Suchbegriff und den Shop.
 
-Gilt für beide Modi:
-- Prüfe Ideen auf Alterseignung, Sicherheit, Dopplungen und Budgetpassung. Bei Lebensmitteln weise im Modus Grob knapp auf Haltbarkeit und Kühlung hin.
-- Plane Erlebnisse nicht automatisch morgens vor Kita oder Schule. Setze Dinge, die ohnehin täglich stattfinden, nicht ohne Grund als besonderes Türchen ein.
-- Bei zwei oder mehr Kindern: Gestalte die Kalender fair und altersgerecht. Gleichwertig heißt nicht, dass beide dasselbe bekommen.
-- Nutze frühere Hindernisse nur für passende Lösungsvorschläge. Verspreche keine Wirkung.
+### Qualitätsregeln für die Türchen (beide Modi)
+**Das Kind hat schon viel.** Gehe davon aus, dass das Kind die üblichen Dinge schon mehrfach besitzt, zum Beispiel Bausteinsets, Fingerpuppen, Wachsmalstifte oder Standard-Bastelsets. Schlage sie nur vor, wenn die Nutzerin sie bei „Was geht immer“ oder als Interesse nennt. Vorrang haben Dinge, von denen Kinder nie genug haben, und alles aus Block 3, Frage 3.
+
+**Kram-Check.** Prüfe jede Idee: Würde sie nach wenigen Tagen in der Ecke landen? Eine Idee besteht den Check, wenn mindestens eines davon zutrifft: Sie passt klar zu Alter und Interesse dieses Kindes, sie wird mehrfach genutzt oder verbraucht, sie ergibt zusammen mit anderen Türchen oder vorhandenen Dingen ein Spiel, oder sie ist ein Erlebnis. Ein Einmal-Gimmick ohne Anschluss besteht ihn nicht. Schreibe zu jedem Türchen einen kurzen Warum-Satz: warum die Idee zu diesem Kind passt (Alter, Interesse) und warum sie nicht in der Ecke landet („bleibt interessant, weil …“). Bei auffälligen Ideen sage auch, warum sie nicht im Kram landen.
+
+**Eigene Liste prüfen und ersetzen.** Bringt die Nutzerin eigene Ideen oder eine Liste mit (im Startfeld, im Chat oder in den Angaben), nimm sie als Ausgangspunkt. Prüfe jede Idee mit Kram-Check, Sicherheit, Dopplungen und Budget. Behalte, was besteht. Ersetze, was nicht besteht, durch Dinge, die das Kind wirklich benutzt oder aufbraucht, ohne das Budget zu überschreiten, und nenne zu jedem Ersatz den Grund. Ergänze nur die Türchen, die noch fehlen.
+
+**Abwechslung.** Höchstens vier Türchen pro Kalender derselben Produktart (zum Beispiel Bücher, Sticker, Süßes, Bastelmaterial, Erlebnisse). Höchstens ein Drittel der Türchen dreht sich um dasselbe Thema, es sei denn, die Nutzerin hat ein durchgehendes Thema gewählt. Dann ist das Thema der Rahmen, und die Art der Türchen wechselt trotzdem (Erlebnis, Material, Verbrauch, Überraschung). Ein Multipack zählt je Türchen mit. Ordne die Türchen im Wechsel an (zum Beispiel Süßes, Spielzeug, Erlebnis, Verbrauchsmaterial), sodass nie zwei Türchen derselben Art direkt hintereinander kommen, außer mit Absicht. Halte dich beim Süßen an die Antwort aus Block 6. Ohne Angabe gilt: wenig Süßes, dafür sinnvolle kleine Überraschungen.
+
+**Multipacks bevorzugen.** Wenn eine Idee mehrere gleichartige Türchen ergibt, schlage ein Mehrfachset vor und verteile es auf mehrere Tage, zum Beispiel ein Set kleiner Bücher, ein Stickerset oder Bälle im Mehrfachpack. Das gilt auch, wenn du kein konkretes Produkt nennst. Rechne die Kosten pro Türchen und nenne sie.
+
+**Verbrauchen oder behalten, neu oder gebraucht.** Halte dich an die Antworten aus Block 2. Ohne Angabe gehst du von neuen Dingen aus. Gebrauchte Dinge nur, wenn die Nutzerin sie erlaubt, und dann mit einem Hinweis, dass die Beschaffung Zeit braucht. Setze vorhandene Dinge aus dem Haus ein, wenn die Nutzerin das möchte, zum Beispiel eine besondere Aktion mit vorhandenen Autos oder Stiften.
+
+**Erlebnis-Türchen.**
+- Sage bei jedem Erlebnis-Türchen konkret, was das Kind morgens im Türchen findet: ein Zettel mit Text in Kindersprache (schreibe den Wortlaut aus), ein Bild oder Symbol für Kinder, die noch nicht lesen, ein Gutschein oder ein kleiner Gegenstand zum Erlebnis.
+- Beschreibe jedes Erlebnis in ein bis zwei Sätzen und liste konkret auf, was genau verwendet wird, mit Mengen und möglichst mit Dingen aus dem Haushalt. Beispiel Parcours: 3 Kissen, 2 Stühle, 1 Decke, Malerkrepp für die Startlinie. „Parcours bauen“ allein reicht nicht. Nenne außerdem Dauer, Vorbereitung und Zeitpunkt. Das ist Pflicht in beiden Modi. Die Materialliste steht im Plan für die Eltern, nicht auf dem Zettel für das Kind.
+- Schlage Erlebnisse vor, die zur Öffnungszeit, zur Erlebnis-Zeit aus Block 7, zur Zeit pro Woche und zu den genannten Alltagsszenen und Hindernissen passen. Öffnet das Kind zum Beispiel morgens vor Kita oder Schule, schlage für den Morgen nur sehr kurze Erlebnisse ohne Aufbau vor.
+- Passt ein Erlebnis nicht dazu oder braucht es viel Zeit, biete dazu in einem Satz eine kurze Alternative an, zum Beispiel dasselbe Erlebnis in einer Kurzversion oder eine Variante ohne Aufbau. Empfiehl eine der beiden Varianten und begründe sie, statt beide nur aufzulisten.
+- Vergleiche den Zeitpunkt mit der Öffnungszeit aus Block 7. Weichen sie voneinander ab, zum Beispiel öffnet das Kind morgens, das Erlebnis passt aber nachmittags, schlage Lösungen vor: ein Zettel mit „Heute Nachmittag …“, ein Bild für die Uhrzeit, ein kleiner Gegenstand zum Vorfreuen oder Erlebnisse nur am Wochenende. Verspreche keine Wirkung.
+- Plane Erlebnisse nicht automatisch morgens vor Kita oder Schule.
+
+**Erlebniszettel zum Ausdrucken.** Wenn die Nutzerin sie in Block 9 gewählt hat, erstelle für jedes Erlebnis-Türchen einen Zettel. Vier Zettel passen auf eine A4-Seite (zwei mal zwei), sortiert nach Türchen-Nummer, bei mehreren Kindern getrennte Seiten pro Kind.
+- Jeder Zettel enthält Türchen-Nummer, einen kurzen Titel, den kindgerechten Text aus dem Türchen und den Zeitpunkt.
+- Bild: Kann dein KI-Tool Bilder erzeugen und hat die Nutzerin Bilder gewählt, erzeuge zu jedem Zettel ein einfaches, kindgerechtes Bild. Kann es das nicht, nimm ein einfaches Symbol oder lasse einen Rahmen zum Selbstmalen frei. Behaupte nie, Bilder zu erzeugen, wenn das Tool es nicht kann.
+- Kann das Tool Dateien erstellen, liefere die Zettel als Datei (PDF oder Word) in einer eigenen Datei oder einem eigenen Abschnitt, damit sie sich einzeln ausdrucken lassen. Sonst liefere druckfertigen Text im Chat, den die Nutzerin in ein Dokument kopieren kann, und sage das in einem Satz.
+
+**Erklärsatz.** Wenn der Sinn eines Türchens für das Kind nicht offensichtlich ist (zum Beispiel Bastelmaterial ohne Anleitung oder Malerkrepp), schreibe einen Satz dazu, wie die Nutzerin das Türchen dem Kind vorstellt.
+
+**Besondere Konzepte (Richtung B oder C).** Die folgenden Ideen sind Beispiele und keine Pflicht. Entwickle bei Wunsch eigene Konzepte.
+- Hören: 24 Hörspiele oder Lieder, gebraucht oft günstig zu finden
+- Menschen: Briefe von Herzensmenschen oder kleine Geschichten aus der Kindheit der Eltern, jeden Tag ein Zettel
+- Draußen: kleine Fund- und Sammelaufgaben, am 24. entsteht daraus etwas Gemeinsames
+- Material: jeden Tag ein Bastelmaterial ohne Anleitung, am Ende eine eigene Kreativkiste
+- Wachsende Welt: jeden Tag ein Teil für ein Haus, eine Garage oder eine Stadt, am 24. ist alles eingerichtet
+- Fotos: eine einfache Kamera, jeden Tag ein Foto, die Bilder werden nach Weihnachten entwickelt
+
+Beachte dabei:
+- Viele Konzepte haben einen Endpunkt am 24. Plane ihn ein.
+- Prüfe die Vorlaufzeit. Briefe brauchen Wochen, Fotos müssen entwickelt werden, gebrauchte Medien müssen gefunden werden. Setze solche Aufgaben in den Zeitrahmen ganz nach vorn.
+- Hat die Nutzerin wenig Zeit, biete eine Mischung an: wenige Tage mit dem besonderen Konzept, der Rest klassisch.
+
+**Zeitplan.** Plane rückwärts vom Fertigstellungstermin aus Block 7 und nenne konkrete Termine (Datum im Modus Detail, Kalenderwoche im Modus Grob). Berücksichtige Lieferzeiten. Sind sie unbekannt, kennzeichne sie als Annahme und plane Puffer ein. Berücksichtige auch die Vorlaufzeit besonderer Konzepte. Die Zeit pro Woche begrenzt, was in einer Woche ansteht. Passt der Plan nicht hinein, sage das und schlage vor, was gebündelt wird oder entfällt.
+
+**Dopplungen.** Notiere zu jedem Türchen in einem Stichwort die Kernaktion oder den Kerngegenstand und gleiche alle Türchen aller Kalender damit ab. Dieselbe Kernaktion darf nur mit Absicht mehrfach vorkommen. Kennzeichne dann die Wiederholung. Wiederholt sich eine Idee unbeabsichtigt, ersetze sie.
+
+**Haltbarkeit.** Prüfe Lebensmittel auf Haltbarkeit und Kühlung. Bei Frischware sage ausdrücklich, dass sie nicht im Kalender liegen kann, und schlage eine Lösung vor, zum Beispiel einen Gutschein statt der Ware. Im Modus Grob weise knapp darauf hin.
+
+**Mehrere Kinder.** Die Kalender sollen im Umfang und im ungefähren Wert vergleichbar sein, aber nach Interessen und Alter des jeweiligen Kindes gebaut. Gleichwertig heißt nicht, dass beide dasselbe bekommen. Plane einige gemeinsame Türchen, zum Beispiel ein Buch für beide am selben Tag. Prüfe, ob ein Kalender deutlich attraktiver wirkt als der andere.
+
+**Feste Termine.** Halte dich an Block 7. Kommt der Kalender zusätzlich zu Nikolaus- und Weihnachtsgeschenken, halte das Türchen an diesen Tagen klein.
+
+**Hindernisse.**
+- Nutze frühere Hindernisse und Alltagsszenen aus Block 6 für passende Lösungsvorschläge und für die Auswahl der Erlebnisse. Verspreche keine Wirkung. Zum Beispiel:
+  - zu wenig Zeit oder Besorgung zu spät: Erlebnisse ohne Vorbereitung, mit kurzer Dauer und Material aus dem Haushalt
+  - Interesse nach wenigen Tagen weg: kürzere Erlebnisse und häufigerer Wechsel der Art
+  - die Kinder vergleichen ihre Türchen: gleiche oder gleichwertige Erlebnisse für beide
+  - morgens ist es hektisch: Türchen, die sofort verständlich sind und keinen Aufbau brauchen. Erlebnisse nur als Zettel mit späterem Termin oder auf das Wochenende legen. Inhalte kurz halten.
+  - abends sind die Kinder zu müde: Erlebnisse nicht auf den Abend legen. Wenn die Öffnung abends ist, nur ruhige, kurze Türchen ohne Aufgabe, Erlebnisse auf Nachmittag oder Wochenende verschieben.
+  - die Kinder wollen gleichzeitig Aufmerksamkeit: Erlebnisse, die beide zusammen machen können, und dazu einzelne kurze Einzelzeit-Türchen für jedes Kind im Wechsel
+  - der Dezember ist voller Termine: an Tagen mit Terminen nur kleine Türchen, größere Erlebnisse auf freie Tage und Wochenenden. Frage bei Bedarf einmal kurz, welche Tage voll sind.
+  - Krankheit oder Erkältung: Erlebnisse nicht an feste Tage binden und ein paar Sofa-Erlebnisse als Ersatz einplanen, die auch mit einem kranken Kind gehen
+  - draußen ist es früh dunkel und kalt: Erlebnisse draußen nur am Wochenende bei Tageslicht oder drinnen. Nimm das bei der Auswahl der Erlebnisse ernst.
+  - das Kind ist an manchen Tagen woanders: Frage einmal kurz, an welchen Tagen. Plane Erlebnisse nur für Tage, an denen das Kind da ist, und schlage vor, wie solche Türchen nachgeholt oder zusammengelegt werden.
+  - ich vergesse abends, das Türchen vorzubereiten: Plane ein festes Vorbereitungsfenster pro Woche, bereite Türchen in Wochenpaketen vor und schlage eine Erinnerung vor. Bevorzuge Erlebnisse mit wenig Material.
+  - eigene Antwort: Berücksichtige die genannte Szene bei Auswahl, Zeitpunkt und Zettel der Erlebnisse und sage in einem Satz, wie.
+- Will das Kind den Kalender mehrmals am Tag öffnen, schlage Regeln und Hilfen vor, zum Beispiel eine feste Öffnungszeit, ein Türchen, das nach dem Öffnen sichtbar abgehakt wird, oder eine Karte „Heute schon geöffnet“.
+
+**Sicherheit.** Prüfe Ideen auf Alterseignung und Sicherheit, bei kleinen Kindern besonders auf kleine Teile, harte Bonbons, ganze Nüsse und Popcorn.
+
+### Weitere Regeln (beide Modi)
 - Erstelle keine Liste von Möglichkeiten ohne Empfehlung. Begründe eine Empfehlung anhand von Alter, Interessen, Budget und Zeit.
-- Nutze Websuche und aktuelle Preise nur, wenn die Nutzerin das möchte und das Modell tatsächlich eine freigegebene Websuche hat. Nenne bei Preisen Quelle und Stand und weise auf mögliche Preis- und Verfügbarkeitsänderungen hin. Ohne Websuche: keine erfundenen Links oder aktuellen Preise, nur klar gekennzeichnete Schätzungen.
+- Nutze Websuche und aktuelle Preise nur, wenn das Modell tatsächlich eine freigegebene Websuche hat und die Nutzerin sie nicht abgewählt hat. Im Modus Grob recherchierst du nur, wenn die Nutzerin es ausdrücklich möchte. Nenne bei Preisen Quelle und Stand und weise auf mögliche Preis- und Verfügbarkeitsänderungen hin. Nutze dabei bevorzugt die Shops und Läden aus Block 8, Frage 4. Ohne Websuche: keine erfundenen Links oder aktuellen Preise, nur klar gekennzeichnete Schätzungen. Gib dann je Artikel einen Suchbegriff und den Shop an. Fehlen Links, sage in einem Satz, warum (keine Websuche oder abgewählt). Lass Links nie stillschweigend weg.
+- Kennzeichne in jedem Fall, ob ein Preis geschätzt oder recherchiert ist. Weise darauf hin, wenn Preise ohne Verpackung und Versand gelten.
 - Zeige nach dem ersten Plan kurz die wichtigsten Annahmen und frage nach Feedback. Passe den Plan an, statt die Nutzerin mit einer unveränderten Liste allein zu lassen.
 - Wenn die Nutzerin nach dem Plan einen Teil genauer möchte, zum Beispiel die Verpackung, frage nur die dafür fehlenden Angaben.
 
 ## Ausgabe
-Gib einen konkreten Plan aus, keine bloße Tippliste. Die Checkliste enthält je Türchen die Statusfelder: bestellt, angekommen, besorgt, eingepackt. Kennzeichne, für welches Kind ein Türchen gedacht ist.
+Gib einen konkreten Plan aus, keine bloße Tippliste. Pro Türchen: Nummer, Kind, Idee, kurzer Warum-Satz, bei Erlebnissen der Inhalt des Zettels, im Modus Detail zusätzlich Preis und Haltbarkeit. Die Checkliste enthält je Türchen die Statusfelder: bestellt, angekommen, besorgt, eingepackt, und den Termin, bis zu dem es bestellt oder besorgt sein muss (Datum im Modus Detail, Kalenderwoche im Modus Grob). Kennzeichne, für welches Kind ein Türchen gedacht ist. Im Chat lassen sich Kästchen nicht anklicken. Sage das kurz und schlage vor, die Checkliste in eine Notiz-App zu kopieren.
+
+Produktlinks stehen immer in demselben Text oder derselben Datei wie der Plan, direkt beim Türchen und gesammelt in einer Einkaufsliste am Ende. Gib sie nicht nur im Chat vorab aus. Wenn es mehrere Shops gibt, sortiere die Einkaufsliste nach Shop. Erlebniszettel stehen getrennt vom Plan, damit sie sich einzeln ausdrucken lassen.
 
 Wenn das Modell keine Datei erstellen kann, liefere dokumentfertigen Text im Chat und behaupte nicht, eine Datei erstellt zu haben.
 
-Sage nicht, dass du dich später an die Angaben erinnerst. Wenn die Nutzerin den Plan in einem neuen Chat weiterverwenden möchte, kann sie ihn oder ihre früheren Angaben einfügen. Du übernimmst sie dann und fragst nur nach Änderungen. Biete keinen Steckbrief und keine Vorlage zum Speichern an, außer die Nutzerin fragt danach.
+Sage nicht, dass du dich später an die Angaben erinnerst. Biete keinen Steckbrief und keine Vorlage zum Speichern an, außer die Nutzerin fragt danach.
 
 ## Sprachbeispiele
 Die Beispiele zeigen Ton und Erklärweise. Sie sind keine starren Antwortbausteine. Übernimm Ton und Erklärweise, passe Inhalt und Aufbau an die tatsächliche Situation an. Die Angaben in den Beispielen sind frei erfunden.
@@ -1579,32 +1708,105 @@ AVA: „Dann würde ich überwiegend kleine Erlebnisse zu Hause einplanen und nu
 
 **Beispiel 3 — Empfehlung und nächster Schritt**
 Nutzerin (Beispiel): „Zeit für Basteln habe ich kaum.“
-AVA: „Dann würde ich fertige Kleinigkeiten und Erlebnisse ohne Vorbereitung bevorzugen. Das senkt den Aufwand, garantiert aber nicht, dass jeder Einkauf sofort verfügbar ist. Als Nächstes gleiche ich die Ideen mit deiner Zeit pro Woche ab.“
+AVA: „Dann würde ich fertige Kleinigkeiten und Erlebnisse ohne Vorbereitung bevorzugen. Das senkt den Aufwand, aber nicht jeder Einkauf ist sofort verfügbar. Als Nächstes gleiche ich die Ideen mit deiner Zeit pro Woche ab.“
+
+**Beispiel 4 — Erlebnis-Türchen mit Öffnungszeit**
+Nutzerin (Beispiel): „Mein Kind öffnet morgens, Erlebnisse passen bei uns nachmittags.“
+AVA: „Dann bekommt jedes Erlebnis-Türchen einen Zettel, der das Warten auffängt. Für Türchen 9 zum Beispiel: ‚Heute Nachmittag bauen wir zusammen eine Höhle aus Decken.‘ Dazu eine kleine Uhr als Bild, die zeigt, wann es losgeht. Das Material liegt dann schon bereit. Für Kinder, die noch nicht lesen, genügt das Bild.“
+
+**Beispiel 5 — Warum-Satz im Plan**
+AVA (Beispiel für eine Türchen-Zeile): „Türchen 7, Kind 1: kleines Tierbuch aus einem Mehrfachset (Buch 2 von 4). Bleibt interessant, weil Kind 1 Tiere mag und die Hefte klein genug für jeden Tag sind. Kein Bausteinset, davon habt ihr nach deiner Angabe genug.“
+
+**Beispiel 6 — Erlebnis mit konkreter Materialliste**
+AVA (Beispiel für ein Erlebnis-Türchen): „Türchen 12, Kind 2: Wohnzimmer-Parcours. Kurzbeschreibung: Ihr baut zusammen eine Strecke, die das Kind kriechend, springend und balancierend schafft. Das braucht ihr: 3 Kissen, 2 Stühle, 1 Decke, Malerkrepp für Start und Ziel. Dauer: etwa 30 Minuten, Aufbau 10 Minuten. Zettel im Türchen: ‚Heute Nachmittag bauen wir einen Parcours. Kannst du ihn schneller schaffen als Mama?‘“
+
+**Beispiel 7 — Erlebnis mit kurzer Alternative**
+Nutzerin (Beispiel): „Mein Kind öffnet morgens vor der Kita, und morgens ist bei uns Stress.“
+AVA (Beispiel für ein Erlebnis-Türchen): „Türchen 5, Kind 1: Statt der Kuschelhöhle, die Aufbau braucht, empfehle ich morgens eine Kurzversion: Das Kind versteckt sein Kuscheltier in der Wohnung und ihr sucht es zusammen, etwa 5 Minuten. Die Höhle bauen wir als Variante für das Wochenende. Das braucht ihr: 1 Kuscheltier. Zettel im Türchen: ‚Heute versteckt sich dein Kuscheltier. Findest du es, bevor wir losmüssen?‘“
 `;
 /* ───────────────────────── AVA-TEXT ENDE ────────────────────────── */
 
 /* ── Konstanten ──────────────────────────────────────────────────── */
-const KEY_ANGABEN = 'ava_angaben_v1';
+const KEY_ANGABEN = 'ava_angaben_v2';
+const KEY_ANGABEN_ALT = 'ava_angaben_v1';   // Altbestand, wird nur aufgeräumt
 const KEY_NEWSLETTER = 'ava_newsletter_ok';
 
 /* ── Fragenmodell ────────────────────────────────────────────────── */
-/* typ: text | textarea | radio | checkbox
-   optionen: { k: Buchstabe, text: vollständiger Optionstext, frei: true }
-   nurDetail: nur im Modus Detail anzeigen
-   bedingung: Funktion, die true liefert, wenn die Frage sichtbar ist   */
-const BLOECKE = [
+/* Reihenfolge, Fragetexte und Optionen stammen wörtlich aus Block 1–9
+   von Reference/AVA_Skill_V3.md.
+   typ: kinder | text | textarea | radio | checkbox
+   optionen:    { k: Buchstabe, text: vollständiger Optionstext, frei: true }
+   nurDetail:   nur im Modus Detail anzeigen
+   bedingung:   Funktion, die true liefert, wenn die Frage sichtbar ist
+   pflicht:     muss ausgefüllt sein, sonst kein „Weiter“
+   schnell:     Zusatz-Häkchen über einem Freitextfeld, setzt einen festen Wert
+   ausgabeWert: eigene Funktion für die Zeile unter „Meine Angaben“      */
+
+/* Block 3 aus dem Skill: einmal je Kind. */
+function interessenBlock(n, einzelnesKind) {
+  const kind = 'Kind ' + n;
+  return {
+    thema: 'Interessen' + (einzelnesKind ? '' : ': ' + kind),
+    fragen: [
+      {
+        id: 'interessen_k' + n,
+        nr: '1.',
+        label: 'Interessen',
+        hinweis: 'Mehrfachauswahl möglich.',
+        typ: 'checkbox',
+        optionen: [
+          { k: 'A', text: 'Tiere' },
+          { k: 'B', text: 'Bücher' },
+          { k: 'C', text: 'Bauen und Konstruieren' },
+          { k: 'D', text: 'Basteln und Kreatives' },
+          { k: 'E', text: 'Autos und Fahrzeuge' },
+          { k: 'F', text: 'Prinzessinnen, Feen und Glitzer' },
+          { k: 'G', text: 'Dinosaurier' },
+          { k: 'H', text: 'Sport und Ball' },
+          { k: 'I', text: 'Musik' },
+          { k: 'J', text: 'Weltraum' },
+          { k: 'K', text: 'Verkleiden und Rollenspiel' },
+          { k: 'L', text: 'Badespaß' },
+          { k: 'M', text: 'Kochen und Backen' },
+          { k: 'N', text: 'Natur und Draußen' },
+          { k: 'O', text: 'Lieblingsfiguren oder Serien' },
+          { k: 'P', text: 'eigene Antwort', frei: true }
+        ],
+        ausgabe: kind + ' – Interessen'
+      },
+      {
+        id: 'figuren_k' + n,
+        nr: '2.',
+        label: 'Konkrete Figuren, Reihen oder Marken, die die Ideen beeinflussen?',
+        typ: 'text',
+        platzhalter: 'z. B. eine Serienfigur, eine Buchreihe — oder „keine“',
+        ausgabe: kind + ' – Figuren, Reihen, Marken'
+      },
+      {
+        id: 'immer_k' + n,
+        nr: '3.',
+        label: 'Was geht bei diesem Kind immer, auch wenn es schon viel davon hat?',
+        hinweis: 'Zum Beispiel Bälle, Flummis, Bücher, Sticker, Haarschmuck.',
+        typ: 'textarea',
+        platzhalter: 'z. B. Bälle, Flummis — oder „weiß nicht“',
+        ausgabe: kind + ' – Was geht immer'
+      }
+    ]
+  };
+}
+
+const BLOCK_VORLAGEN = [
   {
-    nr: 1,
-    titel: 'Block 1 — Kinder',
+    thema: 'Kinder',
     fragen: [
       {
         id: 'kinder',
         nr: '1.',
         label: 'Anzahl und Alter der Kinder',
-        typ: 'text',
-        platzhalter: 'z. B. 2 Kinder, 4 und 7',
+        typ: 'kinder',
         pflicht: true,
-        ausgabe: 'Kinder (Anzahl, Alter)'
+        ausgabe: 'Kinder (Anzahl, Alter)',
+        ausgabeWert: function () { return kinderZeile(); }
       },
       {
         id: 'kalender',
@@ -1622,43 +1824,75 @@ const BLOECKE = [
     ]
   },
   {
-    nr: 2,
-    titel: 'Block 2 — Interessen',
+    thema: 'Konzept und Art der Türchen',
     fragen: [
       {
-        id: 'interessen',
+        id: 'richtung',
         nr: '1.',
-        label: 'Interessen',
-        hinweis: 'Mehrfachauswahl möglich. Bei mehreren Kindern schreib bei „eigene Antwort“, wer was mag.',
-        typ: 'checkbox',
+        label: 'Richtung',
+        typ: 'radio',
         optionen: [
-          { k: 'A', text: 'Tiere' },
-          { k: 'B', text: 'Bücher' },
-          { k: 'C', text: 'Bauen' },
-          { k: 'D', text: 'Kreatives' },
+          { k: 'A', text: 'klassisch, also eine Mischung aus Erlebnissen, kleinen Dingen und Spielzeug' },
+          { k: 'B', text: 'etwas Besonderes mit rotem Faden, zum Beispiel Hören, Briefe, Draußen, Material, eine wachsende Welt oder Fotos' },
+          { k: 'C', text: 'Mischung: wenige besondere Tage, der Rest klassisch' },
+          { k: 'D', text: 'du machst mir Vorschläge' },
           { k: 'E', text: 'eigene Antwort', frei: true }
         ],
-        ausgabe: 'Interessen'
+        ausgabe: 'Richtung'
       },
       {
-        id: 'figuren',
+        id: 'thema',
         nr: '2.',
-        label: 'Konkrete Figuren, Reihen oder Marken',
-        typ: 'text',
-        platzhalter: 'z. B. Paw Patrol, Die Olchis — oder „keine“',
-        ausgabe: 'Figuren, Reihen, Marken'
+        label: 'Soll ein durchgehendes Thema die 24 Türchen verbinden?',
+        typ: 'radio',
+        optionen: [
+          { k: 'A', text: 'nein, abwechslungsreich' },
+          { k: 'B', text: 'ja, und zwar', frei: true },
+          { k: 'C', text: 'du schlägst eines vor' }
+        ],
+        ausgabe: 'Durchgehendes Thema'
+      },
+      {
+        id: 'fuellung',
+        nr: '3.',
+        label: 'Verbrauchen oder behalten',
+        typ: 'radio',
+        optionen: [
+          { k: 'A', text: 'vor allem Dinge, die bleiben' },
+          { k: 'B', text: 'auch Verbrauchsmaterial ist gut, zum Beispiel für die Badewanne, zum Basteln oder zum Naschen' },
+          { k: 'C', text: 'bunt gemischt' },
+          { k: 'D', text: 'eigene Antwort', frei: true }
+        ],
+        ausgabe: 'Verbrauchen oder behalten'
+      },
+      {
+        id: 'herkunft',
+        nr: '4.',
+        label: 'Neu, vorhanden oder gebraucht?',
+        hinweis: 'Mehrfachauswahl möglich.',
+        typ: 'checkbox',
+        optionen: [
+          { k: 'A', text: 'alles neu kaufen' },
+          { k: 'B', text: 'Dinge aus dem Haus gern neu einsetzen, zum Beispiel Stifte, Autos oder Bastelmaterial' },
+          { k: 'C', text: 'gebraucht kaufen ist okay, wenn die Zeit reicht' },
+          { k: 'D', text: 'eigene Antwort', frei: true }
+        ],
+        ausgabe: 'Neu, vorhanden oder gebraucht'
       }
     ]
   },
+  { interessen: true },
   {
-    nr: 3,
-    titel: 'Block 3 — Rahmen',
+    thema: 'Rahmen',
     fragen: [
       {
         id: 'budget',
         nr: '1.',
         label: 'Gesamtbudget inklusive neuer Verpackung',
         typ: 'radio',
+        pflicht: true,
+        pflichtHinweis: 'Bitte wähl noch dein Gesamtbudget. Alles andere in diesem Block ist freiwillig.',
+        pflichtHinweisFrei: 'Bitte trag noch deinen Betrag ein.',
         optionen: [
           { k: 'A', text: 'bis 50 €' },
           { k: 'B', text: '50–100 €' },
@@ -1684,6 +1918,7 @@ const BLOECKE = [
         id: 'zeit',
         nr: '3.',
         label: 'Zeit pro Woche zum Planen, Besorgen und Vorbereiten',
+        hinweis: 'Pro Woche, nicht gesamt.',
         typ: 'radio',
         optionen: [
           { k: 'A', text: 'bis 15 Min.' },
@@ -1697,7 +1932,7 @@ const BLOECKE = [
       {
         id: 'beginn',
         nr: '4.',
-        label: 'Wann beginnt das Besorgen',
+        label: 'Wann beginnt das Besorgen?',
         typ: 'radio',
         optionen: [
           { k: 'A', text: 'diese Woche' },
@@ -1710,13 +1945,12 @@ const BLOECKE = [
     ]
   },
   {
-    nr: 4,
-    titel: 'Block 4 — Verpackung und Ausschlüsse',
+    thema: 'Verpackung und Ausschlüsse',
     fragen: [
       {
         id: 'verpackung',
         nr: '1.',
-        label: 'Verpackung vorhanden',
+        label: 'Ist Verpackung vorhanden?',
         typ: 'radio',
         optionen: [
           { k: 'A', text: 'nein, alles neu' },
@@ -1729,7 +1963,7 @@ const BLOECKE = [
       {
         id: 'verpackungDetail',
         nr: '2.',
-        label: 'Art, Menge und ungefähre Maße der vorhandenen Verpackung',
+        label: 'Falls vorhanden: Art, Menge und ungefähre Maße',
         hinweis: 'Gilt die Menge pro Kalender oder insgesamt? Soll die Verpackung wiederverwendet werden?',
         typ: 'textarea',
         platzhalter: 'z. B. 24 Stoffsäckchen, ca. 15 × 20 cm, insgesamt, sollen wiederverwendet werden',
@@ -1739,7 +1973,7 @@ const BLOECKE = [
       {
         id: 'aufbewahrung',
         nr: '3.',
-        label: 'Aufbewahrung',
+        label: 'Wie wird der Kalender aufbewahrt?',
         typ: 'radio',
         nurDetail: true,
         optionen: [
@@ -1753,47 +1987,104 @@ const BLOECKE = [
       {
         id: 'ausschluss',
         nr: '4.',
-        label: 'Was soll nicht ins Türchen',
-        hinweis: 'z. B. „keine Süßigkeiten“. Namen und Gesundheitsdaten musst du nicht eintragen.',
+        label: 'Was soll nicht ins Türchen, zum Beispiel wegen Allergien oder Süßigkeiten?',
+        hinweis: 'Namen und Gesundheitsdaten musst du nicht eintragen.',
         typ: 'textarea',
-        platzhalter: 'z. B. keine Süßigkeiten — oder „nichts“',
+        platzhalter: 'z. B. keine Nüsse, keine Süßigkeiten',
+        pflicht: true,
+        pflichtHinweis: 'Bitte trag noch ein, was nicht ins Türchen soll — oder setz das Häkchen „Nichts auszuschließen“.',
+        schnell: { label: 'Nichts auszuschließen', wert: 'nichts' },
         ausgabe: 'Nicht ins Türchen'
       }
     ]
   },
   {
-    nr: 5,
-    titel: 'Block 5 — Alltag und Hindernisse',
+    thema: 'Alltag und Hindernisse',
     fragen: [
       {
         id: 'hindernisse',
         nr: '1.',
-        label: 'Was hat bisher nicht geklappt',
+        label: 'Was hat bisher nicht geklappt?',
         hinweis: 'Mehrfachauswahl möglich.',
         typ: 'checkbox',
         optionen: [
           { k: 'A', text: 'zu wenig Zeit' },
           { k: 'B', text: 'Budget gesprengt' },
           { k: 'C', text: 'Ideen doppelt oder langweilig' },
-          { k: 'D', text: 'Verpackung oder Lagerung' },
-          { k: 'E', text: 'Besorgung zu spät' },
-          { k: 'F', text: 'nichts, es ist neu' },
-          { k: 'G', text: 'eigene Antwort', frei: true }
+          { k: 'D', text: 'Interesse nach wenigen Tagen weg' },
+          { k: 'E', text: 'Verpackung oder Lagerung' },
+          { k: 'F', text: 'Besorgung zu spät' },
+          { k: 'G', text: 'Kind will den Kalender mehrmals am Tag öffnen' },
+          { k: 'H', text: 'die Kinder vergleichen ihre Türchen' },
+          { k: 'I', text: 'morgens ist es hektisch' },
+          { k: 'J', text: 'abends sind die Kinder zu müde' },
+          { k: 'K', text: 'nichts, es ist neu' },
+          { k: 'L', text: 'eigene Antwort', frei: true }
         ],
         ausgabe: 'Bisherige Hindernisse'
       },
       {
-        id: 'taeglich',
+        id: 'alltagsszenen',
         nr: '2.',
-        label: 'Was passiert ohnehin täglich, zum Beispiel Vorlesen, und soll kein besonderes Türchen sein',
+        label: 'Welche weiteren Alltagsszenen reiben sich bei euch im Dezember mit dem Kalender?',
+        hinweis: 'Mehrfachauswahl möglich.',
+        typ: 'checkbox',
+        optionen: [
+          { k: 'A', text: 'die Kinder wollen gleichzeitig meine Aufmerksamkeit' },
+          { k: 'B', text: 'der Dezember ist voller Termine, zum Beispiel Feiern und Besuche' },
+          { k: 'C', text: 'Krankheit oder Erkältung' },
+          { k: 'D', text: 'draußen ist es früh dunkel und kalt' },
+          { k: 'E', text: 'das Kind ist an manchen Tagen woanders, zum Beispiel beim anderen Elternteil oder bei den Großeltern' },
+          { k: 'F', text: 'ich vergesse abends, das Türchen vorzubereiten' },
+          { k: 'G', text: 'keine davon' },
+          { k: 'H', text: 'eigene Antwort', frei: true }
+        ],
+        ausgabe: 'Alltagsszenen im Dezember'
+      },
+      {
+        id: 'taeglich',
+        nr: '3.',
+        label: 'Was passiert ohnehin täglich, zum Beispiel Vorlesen, und soll kein besonderes Türchen sein?',
         typ: 'textarea',
         platzhalter: 'z. B. Vorlesen vor dem Schlafen — oder „weiß nicht“',
         ausgabe: 'Ohnehin täglich'
       },
       {
+        id: 'suesses',
+        nr: '4.',
+        label: 'Wie viel Süßes darf in den Kalender?',
+        typ: 'radio',
+        optionen: [
+          { k: 'A', text: 'keins' },
+          { k: 'B', text: 'wenig, dafür sinnvolle kleine Überraschungen' },
+          { k: 'C', text: 'gern ein paar' },
+          { k: 'D', text: 'eigene Antwort', frei: true }
+        ],
+        ausgabe: 'Anteil Süßes'
+      }
+    ]
+  },
+  {
+    thema: 'Öffnung und Termine',
+    fragen: [
+      {
+        id: 'oeffnung',
+        nr: '1.',
+        label: 'Wann öffnet das Kind den Kalender?',
+        typ: 'radio',
+        optionen: [
+          { k: 'A', text: 'morgens vor Kita oder Schule' },
+          { k: 'B', text: 'nach Kita oder Schule' },
+          { k: 'C', text: 'abends' },
+          { k: 'D', text: 'wechselnd' },
+          { k: 'E', text: 'eigene Antwort', frei: true }
+        ],
+        ausgabe: 'Öffnungszeit des Kalenders'
+      },
+      {
         id: 'erlebnis',
-        nr: '3.',
-        label: 'Wann passen Erlebnis-Türchen am besten',
+        nr: '2.',
+        label: 'Wann passen Erlebnis-Türchen bei euch am besten?',
         typ: 'radio',
         optionen: [
           { k: 'A', text: 'nachmittags' },
@@ -1802,15 +2093,144 @@ const BLOECKE = [
           { k: 'D', text: 'eigene Antwort', frei: true }
         ],
         ausgabe: 'Zeit für Erlebnis-Türchen'
+      },
+      {
+        id: 'termine',
+        nr: '3.',
+        label: 'Feste Termine',
+        hinweis: 'Mehrfachauswahl möglich.',
+        typ: 'checkbox',
+        optionen: [
+          { k: 'A', text: 'Nikolaus bekommt ein größeres Türchen' },
+          { k: 'B', text: 'der 24. bekommt ein besonderes Türchen' },
+          { k: 'C', text: 'der Kalender kommt zusätzlich zu Nikolaus- und Weihnachtsgeschenken' },
+          { k: 'D', text: 'keine besonderen Türchen' },
+          { k: 'E', text: 'eigene Antwort, zum Beispiel Adventssonntage oder ein Geburtstag', frei: true }
+        ],
+        ausgabe: 'Feste Termine'
+      },
+      {
+        id: 'fertigTermin',
+        nr: '4.',
+        label: 'Bis wann soll der Kalender fertig vorbereitet sein?',
+        typ: 'radio',
+        optionen: [
+          { k: 'A', text: 'bis zum 1. Dezember' },
+          { k: 'B', text: 'bis zum ersten Advent' },
+          { k: 'C', text: 'anderer Termin, zum Beispiel ein Datum', frei: true }
+        ],
+        ausgabe: 'Fertig vorbereitet bis'
+      }
+    ]
+  },
+  {
+    thema: 'Recherche und Einkauf',
+    nurDetail: true,
+    hinweis: 'Preise und Links gehen nur, wenn dein KI-Tool eine Websuche hat. Sonst bekommst du Suchbegriffe.',
+    fragen: [
+      {
+        id: 'preise',
+        nr: '1.',
+        label: 'Preise',
+        typ: 'radio',
+        nurDetail: true,
+        optionen: [
+          { k: 'A', text: 'grobe Schätzung' },
+          { k: 'B', text: 'aktuelle Online-Preise (nur mit Websuche)' }
+        ],
+        ausgabe: 'Preise'
+      },
+      {
+        id: 'links',
+        nr: '2.',
+        label: 'Produktlinks',
+        typ: 'radio',
+        nurDetail: true,
+        optionen: [
+          { k: 'A', text: 'keine Links' },
+          { k: 'B', text: 'konkrete Artikel verlinken (nur mit Websuche)' }
+        ],
+        ausgabe: 'Produktlinks'
+      },
+      {
+        id: 'besorgung',
+        nr: '3.',
+        label: 'Besorgung',
+        typ: 'radio',
+        nurDetail: true,
+        optionen: [
+          { k: 'A', text: 'online' },
+          { k: 'B', text: 'im Laden' },
+          { k: 'C', text: 'beides' }
+        ],
+        ausgabe: 'Besorgung'
+      },
+      {
+        id: 'shops',
+        nr: '4.',
+        label: 'Wo kaufst du gern ein?',
+        hinweis: 'Nenne Online-Shops, bei denen du gern bestellst, und Läden in deiner Nähe.',
+        typ: 'textarea',
+        nurDetail: true,
+        platzhalter: 'z. B. mein Lieblings-Onlineshop, der Drogeriemarkt um die Ecke — oder „egal“',
+        ausgabe: 'Lieblingsshops und -läden'
+      }
+    ]
+  },
+  {
+    thema: 'Ausgabe',
+    fragen: [
+      {
+        id: 'format',
+        nr: '1.',
+        label: 'Format',
+        hinweis: 'Die Checkliste gehört in jedem Fall zum Plan.',
+        typ: 'radio',
+        optionen: [
+          { k: 'A', text: 'strukturierte Antwort im Chat' },
+          { k: 'B', text: 'dokumentfertiger Text zum Kopieren' },
+          { k: 'C', text: 'kurzer Plan mit Schwerpunkt auf der Abhak-Liste (bestellt, angekommen, besorgt, eingepackt)' },
+          { k: 'D', text: 'zusätzlich als Datei (Word oder PDF), falls mein KI-Tool das kann' }
+        ],
+        ausgabe: 'Ausgabeformat'
+      },
+      {
+        id: 'zettel',
+        nr: '2.',
+        label: 'Erlebniszettel zum Ausdrucken?',
+        hinweis: 'Bilder nur, wenn dein KI-Tool Bilder erstellen kann.',
+        typ: 'radio',
+        optionen: [
+          { k: 'A', text: 'keine Erlebnis-Türchen / nein' },
+          { k: 'B', text: 'ja, vier pro A4-Seite, nur Text' },
+          { k: 'C', text: 'ja, vier pro A4-Seite mit Bildern, falls mein KI-Tool Bilder erstellen kann' },
+          { k: 'D', text: 'eigene Antwort', frei: true }
+        ],
+        ausgabe: 'Erlebniszettel'
       }
     ]
   }
 ];
 
+/* Baut die Blockliste. Block 3 kommt einmal je Kind vor. */
+function baueBloecke() {
+  const n = Math.max(1, anzahlKinder());
+  const liste = [];
+  BLOCK_VORLAGEN.forEach(function (v) {
+    if (v.interessen) {
+      for (let i = 1; i <= n; i++) liste.push(interessenBlock(i, n === 1));
+    } else {
+      liste.push(v);
+    }
+  });
+  return liste;
+}
+
 /* ── Zustand ─────────────────────────────────────────────────────── */
 let modus = 'grob';              // 'grob' | 'detail'
-let antworten = {};              // id -> string | {k, frei} | {ks:[], frei}
-let aktuellerBlock = 1;
+let antworten = {};              // id -> string | {k, frei} | {ks:[], frei} | kinder-Objekt
+let bloecke = [];                // alle Blöcke, nach Kinderzahl gebaut
+let aktuellerBlock = 1;          // 1-basierte Position in sichtbareBloecke()
 let anmeldungInDieserSitzung = false;
 
 /* ── Hilfsfunktionen ─────────────────────────────────────────────── */
@@ -1822,23 +2242,52 @@ function esc(s) {
 }
 
 function frageNachId(id) {
-  for (const b of BLOECKE) for (const f of b.fragen) if (f.id === id) return f;
+  for (const b of bloecke) for (const f of b.fragen) if (f.id === id) return f;
   return null;
 }
 
-/* Erkennt aus dem Freitext in Block 1, ob es mehr als ein Kind gibt. */
-function mehrereKinder() {
-  const t = (antworten.kinder || '').toLowerCase();
-  if (!t.trim()) return false;
-  if (/\b(1|ein|eins|eine)\s*kind\b/.test(t) && !/kinder/.test(t)) return false;
-  const m = t.match(/(\d+)\s*kinder/);
-  if (m) return parseInt(m[1], 10) > 1;
-  if (/\b(zwei|drei|vier|fünf|sechs|sieben)\b/.test(t)) return true;
-  if (/kinder/.test(t)) return true;
-  // Zwei oder mehr Altersangaben deuten auf mehrere Kinder hin
-  const zahlen = t.match(/\d+/g);
-  return !!(zahlen && zahlen.length >= 2);
+/* Antwortobjekt für Block 1, Frage 1: { anzahl: '1'|'2'|'3'|'mehr', mehr, alter:[] } */
+function kinderAntwort() {
+  const k = antworten.kinder;
+  if (!k || typeof k !== 'object' || Array.isArray(k)) return {};
+  return k;
 }
+
+/* Gewählte Kinderzahl, 0 wenn noch nichts gewählt ist. */
+function anzahlKinder() {
+  const k = kinderAntwort();
+  if (!k.anzahl) return 0;
+  if (k.anzahl === 'mehr') {
+    const n = parseInt(String(k.mehr || '').replace(/\D/g, ''), 10);
+    return n >= 4 ? Math.min(n, 10) : 4;   // ohne Angabe: 4
+  }
+  const n = parseInt(k.anzahl, 10);
+  return (n >= 1 && n <= 3) ? n : 0;
+}
+
+function alterListe() {
+  const a = kinderAntwort().alter;
+  return Array.isArray(a) ? a : [];
+}
+
+/* „2 Kinder, 4 und 7“ */
+function kinderZeile() {
+  const n = anzahlKinder();
+  if (!n) return 'nicht angegeben';
+  const alter = [];
+  for (let i = 0; i < n; i++) {
+    const w = String(alterListe()[i] || '').trim();
+    if (w) alter.push(w);
+  }
+  const kopf = n === 1 ? '1 Kind' : n + ' Kinder';
+  if (!alter.length) return kopf + ', Alter nicht angegeben';
+  const teil = alter.length === 1
+    ? alter[0]
+    : alter.slice(0, -1).join(', ') + ' und ' + alter[alter.length - 1];
+  return kopf + ', ' + teil;
+}
+
+function mehrereKinder() { return anzahlKinder() > 1; }
 
 function mehrereKalender() {
   if (!mehrereKinder()) return false;
@@ -1852,6 +2301,13 @@ function sichtbar(f) {
   if (typeof f.bedingung === 'function' && !f.bedingung()) return false;
   return true;
 }
+
+/* Blöcke, in denen im aktuellen Modus überhaupt etwas zu beantworten ist. */
+function sichtbareBloecke() {
+  return bloecke.filter(function (b) { return b.fragen.some(sichtbar); });
+}
+
+function modusName() { return modus === 'detail' ? 'Detail' : 'Grob'; }
 
 function heuteDeutsch() {
   const d = new Date();
@@ -1894,57 +2350,173 @@ function zeigeBildschirm(id) {
 }
 
 /* ── Block rendern ───────────────────────────────────────────────── */
+function kinderAnzahlHtml() {
+  const k = kinderAntwort();
+  const optionen = [
+    { w: '1', t: '1 Kind' },
+    { w: '2', t: '2 Kinder' },
+    { w: '3', t: '3 Kinder' },
+    { w: 'mehr', t: '4 oder mehr' }
+  ];
+  let html = '<div class="optionen">';
+  optionen.forEach(function (o) {
+    const an = k.anzahl === o.w;
+    html += '<label class="opt' + (an ? ' gewaehlt' : '') + '">' +
+      '<input type="radio" name="kinderAnzahl" value="' + o.w + '"' + (an ? ' checked' : '') + '>' +
+      '<span>' + esc(o.t) + '</span></label>';
+    if (o.w === 'mehr') {
+      html += '<div class="frei-feld' + (an ? ' offen' : '') + '" data-kindermehrfeld>' +
+        '<input type="text" data-kindermehr inputmode="numeric" value="' + esc(k.mehr || '') +
+        '" placeholder="wie viele Kinder?"></div>';
+    }
+  });
+  return html + '</div>';
+}
+
+function alterFelderHtml() {
+  const n = anzahlKinder();
+  if (!n) return '';
+  let html = '<p class="frage-hinweis" style="margin-top:0.85rem;">' +
+    (n === 1 ? 'Wie alt ist dein Kind?' : 'Wie alt sind die Kinder?') + '</p>' +
+    '<div class="alter-reihe">';
+  for (let i = 0; i < n; i++) {
+    html += '<label class="alter-feld"><span>Kind ' + (i + 1) + '</span>' +
+      '<input type="text" data-alter="' + i + '" inputmode="numeric" value="' +
+      esc(alterListe()[i] || '') + '" placeholder="z. B. 4"></label>';
+  }
+  return html + '</div>';
+}
+
+function fragenHtml(f) {
+  let html = '<div class="frage" data-frage="' + f.id + '">';
+  html += '<p class="frage-text">' + f.nr + ' ' + esc(f.label) + '</p>';
+  if (f.hinweis) html += '<p class="frage-hinweis">' + esc(f.hinweis) + '</p>';
+
+  if (f.typ === 'kinder') {
+    html += kinderAnzahlHtml();
+    html += '<div data-kinderalter>' + alterFelderHtml() + '</div>';
+  } else if (f.typ === 'text') {
+    html += '<input type="text" data-id="' + f.id + '" value="' +
+      esc(antworten[f.id] || '') + '" placeholder="' + esc(f.platzhalter || '') + '">';
+  } else if (f.typ === 'textarea') {
+    const wert = antworten[f.id] || '';
+    const schnellAn = !!(f.schnell && wert === f.schnell.wert);
+    if (f.schnell) {
+      html += '<div class="optionen" style="margin-bottom:0.5rem;">' +
+        '<label class="opt' + (schnellAn ? ' gewaehlt' : '') + '">' +
+        '<input type="checkbox" data-schnell="' + f.id + '"' + (schnellAn ? ' checked' : '') + '>' +
+        '<span>' + esc(f.schnell.label) + '</span></label></div>';
+    }
+    html += '<textarea data-id="' + f.id + '" placeholder="' + esc(f.platzhalter || '') + '"' +
+      (schnellAn ? ' disabled' : '') + '>' + esc(schnellAn ? '' : wert) + '</textarea>';
+  } else {
+    const a = antworten[f.id] || {};
+    const gewaehlt = f.typ === 'radio' ? (a.k ? [a.k] : []) : (a.ks || []);
+    html += '<div class="optionen">';
+    f.optionen.forEach(function (o) {
+      const an = gewaehlt.indexOf(o.k) !== -1;
+      html += '<label class="opt' + (an ? ' gewaehlt' : '') + '">' +
+        '<input type="' + f.typ + '" name="' + f.id + '" value="' + o.k + '" data-id="' + f.id + '"' +
+        (o.frei ? ' data-frei="1"' : '') + (an ? ' checked' : '') + '>' +
+        '<span>' + o.k + ') ' + esc(o.text) + '</span></label>';
+      if (o.frei) {
+        html += '<div class="frei-feld' + (an ? ' offen' : '') + '" data-freifeld="' + f.id + '">' +
+          '<input type="text" data-freitext="' + f.id + '" value="' + esc(a.frei || '') +
+          '" placeholder="deine Antwort"></div>';
+      }
+    });
+    html += '</div>';
+  }
+  return html + '</div>';
+}
+
+/* Fortschritt, Titel und Button-Text. Die Zahl der Blöcke hängt an der
+   Kinderzahl und am Modus und kann sich mitten im Block 1 ändern.        */
+function aktualisiereFortschritt() {
+  const liste = sichtbareBloecke();
+  if (aktuellerBlock > liste.length) aktuellerBlock = liste.length;
+  if (aktuellerBlock < 1) aktuellerBlock = 1;
+  const block = liste[aktuellerBlock - 1];
+  el('fortschrittText').textContent = 'Block ' + aktuellerBlock + ' von ' + liste.length;
+  el('fortschrittBalken').style.width = Math.round(aktuellerBlock / liste.length * 100) + '%';
+  if (block) el('blockTitel').textContent = 'Block ' + aktuellerBlock + ' — ' + block.thema;
+  el('btnWeiter').textContent = aktuellerBlock === liste.length ? 'Mein AVA erstellen' : 'Weiter';
+}
+
 function renderBlock() {
-  const block = BLOECKE[aktuellerBlock - 1];
-  el('fortschrittText').textContent = 'Block ' + aktuellerBlock + ' von 5';
-  el('fortschrittBalken').style.width = (aktuellerBlock * 20) + '%';
-  el('blockTitel').textContent = block.titel;
+  aktualisiereFortschritt();
+  const block = sichtbareBloecke()[aktuellerBlock - 1];
+  if (!block) return;
 
   let html = '';
-  block.fragen.forEach(function (f) {
-    html += '<div class="frage" data-frage="' + f.id + '">';
-    html += '<p class="frage-text">' + f.nr + ' ' + esc(f.label) + '</p>';
-    if (f.hinweis) html += '<p class="frage-hinweis">' + esc(f.hinweis) + '</p>';
-
-    if (f.typ === 'text') {
-      html += '<input type="text" data-id="' + f.id + '" value="' +
-        esc(antworten[f.id] || '') + '" placeholder="' + esc(f.platzhalter || '') + '">';
-    } else if (f.typ === 'textarea') {
-      html += '<textarea data-id="' + f.id + '" placeholder="' + esc(f.platzhalter || '') + '">' +
-        esc(antworten[f.id] || '') + '</textarea>';
-    } else {
-      const a = antworten[f.id] || {};
-      const gewaehlt = f.typ === 'radio' ? (a.k ? [a.k] : []) : (a.ks || []);
-      html += '<div class="optionen">';
-      f.optionen.forEach(function (o) {
-        const an = gewaehlt.indexOf(o.k) !== -1;
-        html += '<label class="opt' + (an ? ' gewaehlt' : '') + '">' +
-          '<input type="' + f.typ + '" name="' + f.id + '" value="' + o.k + '" data-id="' + f.id + '"' +
-          (o.frei ? ' data-frei="1"' : '') + (an ? ' checked' : '') + '>' +
-          '<span>' + o.k + ') ' + esc(o.text) + '</span></label>';
-        if (o.frei) {
-          html += '<div class="frei-feld' + (an ? ' offen' : '') + '" data-freifeld="' + f.id + '">' +
-            '<input type="text" data-freitext="' + f.id + '" value="' + esc(a.frei || '') +
-            '" placeholder="deine Antwort"></div>';
-        }
-      });
-      html += '</div>';
-    }
-    html += '</div>';
-  });
+  if (block.hinweis) html += '<p class="notiz">' + esc(block.hinweis) + '</p>';
+  block.fragen.forEach(function (f) { html += fragenHtml(f); });
 
   el('blockInhalt').innerHTML = html;
-  el('btnWeiter').textContent = aktuellerBlock === 5 ? 'Mein AVA erstellen' : 'Weiter';
   verdrahteBlock();
   aktualisiereSichtbarkeit();
   pruefePflicht();
 }
 
+/* Nur die Altersfelder neu zeichnen, damit das Feld „wie viele“ den Fokus behält. */
+function rendereAlterFelder() {
+  const box = el('blockInhalt').querySelector('[data-kinderalter]');
+  if (!box) return;
+  box.innerHTML = alterFelderHtml();
+  verdrahteAlterFelder();
+}
+
+function verdrahteAlterFelder() {
+  el('blockInhalt').querySelectorAll('[data-alter]').forEach(function (inp) {
+    inp.addEventListener('input', function () {
+      const k = kinderAntwort();
+      const alter = alterListe().slice();
+      alter[parseInt(inp.dataset.alter, 10)] = inp.value;
+      antworten.kinder = { anzahl: k.anzahl || '', mehr: k.mehr || '', alter: alter };
+      pruefePflicht();
+      speichern();
+    });
+  });
+}
+
 function verdrahteBlock() {
   const wurzel = el('blockInhalt');
 
+  // Block 1: Anzahl der Kinder
+  wurzel.querySelectorAll('input[name="kinderAnzahl"]').forEach(function (inp) {
+    inp.addEventListener('change', function () {
+      const k = kinderAntwort();
+      antworten.kinder = { anzahl: inp.value, mehr: k.mehr || '', alter: alterListe().slice() };
+      wurzel.querySelectorAll('input[name="kinderAnzahl"]').forEach(function (r) {
+        r.closest('.opt').classList.toggle('gewaehlt', r.checked);
+      });
+      const feld = wurzel.querySelector('[data-kindermehrfeld]');
+      if (feld) feld.classList.toggle('offen', inp.value === 'mehr');
+      bloecke = baueBloecke();
+      rendereAlterFelder();
+      aktualisiereSichtbarkeit();
+      pruefePflicht();
+      speichern();
+    });
+  });
+
+  // Block 1: „4 oder mehr“ — wie viele?
+  wurzel.querySelectorAll('[data-kindermehr]').forEach(function (inp) {
+    inp.addEventListener('input', function () {
+      const k = kinderAntwort();
+      antworten.kinder = { anzahl: 'mehr', mehr: inp.value, alter: alterListe().slice() };
+      bloecke = baueBloecke();
+      rendereAlterFelder();
+      aktualisiereSichtbarkeit();
+      pruefePflicht();
+      speichern();
+    });
+  });
+
+  verdrahteAlterFelder();
+
   // Freitextfelder (text / textarea)
-  wurzel.querySelectorAll('[data-id]:not([type="radio"]):not([type="checkbox"])').forEach(function (inp) {
+  wurzel.querySelectorAll('input[data-id][type="text"], textarea[data-id]').forEach(function (inp) {
     inp.addEventListener('input', function () {
       antworten[inp.dataset.id] = inp.value;
       aktualisiereSichtbarkeit();
@@ -1953,8 +2525,27 @@ function verdrahteBlock() {
     });
   });
 
-  // Auswahl
-  wurzel.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(function (inp) {
+  // Schnellhäkchen über einem Freitextfeld, z. B. „Nichts auszuschließen“
+  wurzel.querySelectorAll('[data-schnell]').forEach(function (box) {
+    box.addEventListener('change', function () {
+      const id = box.dataset.schnell;
+      const f = frageNachId(id);
+      const feld = wurzel.querySelector('textarea[data-id="' + id + '"]');
+      if (box.checked) {
+        antworten[id] = f.schnell.wert;
+        if (feld) { feld.value = ''; feld.disabled = true; }
+      } else {
+        antworten[id] = '';
+        if (feld) { feld.disabled = false; feld.focus(); }
+      }
+      box.closest('.opt').classList.toggle('gewaehlt', box.checked);
+      pruefePflicht();
+      speichern();
+    });
+  });
+
+  // Auswahl (radio / checkbox) der Fragen aus dem Modell
+  wurzel.querySelectorAll('input[data-id][type="radio"], input[data-id][type="checkbox"]').forEach(function (inp) {
     inp.addEventListener('change', function () {
       const id = inp.dataset.id;
       const f = frageNachId(id);
@@ -1968,6 +2559,7 @@ function verdrahteBlock() {
       }
       aktualisiereAuswahlOptik(id);
       aktualisiereSichtbarkeit();
+      pruefePflicht();
       speichern();
     });
   });
@@ -1978,6 +2570,7 @@ function verdrahteBlock() {
       const id = inp.dataset.freitext;
       if (!antworten[id]) antworten[id] = frageNachId(id).typ === 'radio' ? { k: '' } : { ks: [] };
       antworten[id].frei = inp.value;
+      pruefePflicht();
       speichern();
     });
   });
@@ -1995,29 +2588,71 @@ function aktualisiereAuswahlOptik(id) {
 }
 
 function aktualisiereSichtbarkeit() {
-  const block = BLOECKE[aktuellerBlock - 1];
+  aktualisiereFortschritt();
+  const block = sichtbareBloecke()[aktuellerBlock - 1];
+  if (!block) return;
   block.fragen.forEach(function (f) {
     const knoten = el('blockInhalt').querySelector('[data-frage="' + f.id + '"]');
     if (knoten) knoten.style.display = sichtbar(f) ? '' : 'none';
   });
 }
 
+/* Liefert den Hinweistext, wenn im aktuellen Block eine Pflichtangabe fehlt. */
+function fehlendePflicht() {
+  const liste = sichtbareBloecke();
+  const block = liste[aktuellerBlock - 1];
+  if (!block) return '';
+  for (const f of block.fragen) {
+    if (!f.pflicht || !sichtbar(f)) continue;
+
+    if (f.typ === 'kinder') {
+      const n = anzahlKinder();
+      if (!n) return 'Bitte wähl noch aus, wie viele Kinder es sind.';
+      for (let i = 0; i < n; i++) {
+        if (!String(alterListe()[i] || '').trim()) {
+          return 'Bitte trag noch das Alter aller Kinder ein. Alles andere in diesem Block ist freiwillig.';
+        }
+      }
+      continue;
+    }
+
+    if (f.typ === 'text' || f.typ === 'textarea') {
+      if (!String(antworten[f.id] || '').trim()) {
+        return f.pflichtHinweis || ('Bitte beantworte noch: ' + f.label);
+      }
+      continue;
+    }
+
+    const a = antworten[f.id] || {};
+    const ks = f.typ === 'radio' ? (a.k ? [a.k] : []) : (a.ks || []);
+    if (!ks.length) return f.pflichtHinweis || ('Bitte beantworte noch: ' + f.label);
+    const freiGewaehlt = ks.some(function (k) {
+      const o = f.optionen.find(function (x) { return x.k === k; });
+      return !!(o && o.frei);
+    });
+    if (freiGewaehlt && !String(a.frei || '').trim()) {
+      return f.pflichtHinweisFrei || 'Bitte ergänz noch deine eigene Antwort.';
+    }
+  }
+  return '';
+}
+
 function pruefePflicht() {
-  const fehlt = !(antworten.kinder || '').trim();
-  const aktiv = aktuellerBlock === 1 && fehlt;
-  el('btnWeiter').disabled = aktiv;
-  el('pflichtHinweis').classList.toggle('sichtbar', aktiv);
+  const meldung = fehlendePflicht();
+  el('btnWeiter').disabled = !!meldung;
+  el('pflichtHinweis').textContent = meldung;
+  el('pflichtHinweis').classList.toggle('sichtbar', !!meldung);
 }
 
 /* ── Abschnitt „Meine Angaben“ ───────────────────────────────────── */
 function antwortText(f) {
   const a = antworten[f.id];
   if (f.typ === 'text' || f.typ === 'textarea') {
-    const t = (a || '').trim();
+    const t = String(a || '').trim();
     return t ? t.replace(/\s*\n\s*/g, ' ') : 'nicht angegeben';
   }
   if (!a) return 'nicht angegeben';
-  const frei = (a.frei || '').trim();
+  const frei = String(a.frei || '').trim();
   const teile = [];
   const ks = f.typ === 'radio' ? (a.k ? [a.k] : []) : (a.ks || []);
   ks.forEach(function (k) {
@@ -2030,23 +2665,29 @@ function antwortText(f) {
   return teile.length ? teile.join(', ') : 'nicht angegeben';
 }
 
+function modusHinweis() {
+  return 'Hinweis aus dem Ausfüll-Tool: Gewählter Modus: ' + modusName() +
+    '. Die Angaben stehen am Ende unter „Meine Angaben“.';
+}
+
 function baueAngaben() {
   const zeilen = [];
   zeilen.push('## Meine Angaben');
-  zeilen.push('Diese Angaben stammen aus dem AVA-Ausfüll-Tool. Übernimm sie wie unter „Start: Modus wählen“ beschrieben.');
+  zeilen.push('Diese Angaben stammen aus dem AVA-Ausfüll-Tool. Übernimm sie wie unter „Start“ beschrieben.');
   zeilen.push('Erstellt am: ' + heuteDeutsch());
-  zeilen.push('Modus: ' + (modus === 'detail' ? 'Detail' : 'Grob'));
-  BLOECKE.forEach(function (b) {
+  zeilen.push('Modus: ' + modusName());
+  bloecke.forEach(function (b) {
     b.fragen.forEach(function (f) {
-      if (f.nurDetail && modus !== 'detail') return;   // Detail-Felder nur im Modus Detail
-      zeilen.push(f.ausgabe + ': ' + antwortText(f));
+      if (!sichtbar(f)) return;   // Detail-Felder und Fragen, die nicht zutreffen
+      zeilen.push(f.ausgabe + ': ' + (f.ausgabeWert ? f.ausgabeWert() : antwortText(f)));
     });
   });
   return zeilen.join('\n');
 }
 
 function gesamtText() {
-  return AVA_TEXT.replace(/\s+$/, '') + '\n\n' + baueAngaben() + '\n';
+  return modusHinweis() + '\n\n' +
+    AVA_TEXT.replace(/\s+$/, '') + '\n\n' + baueAngaben() + '\n';
 }
 
 /* ── D) Ergebnis ─────────────────────────────────────────────────── */
@@ -2133,7 +2774,9 @@ function zeigeNewsletter() {
 
 /* ── Navigation ──────────────────────────────────────────────────── */
 function weiter() {
-  if (aktuellerBlock < 5) {
+  if (fehlendePflicht()) { pruefePflicht(); return; }
+  const liste = sichtbareBloecke();
+  if (aktuellerBlock < liste.length) {
     aktuellerBlock++;
     renderBlock();
     return;
@@ -2177,6 +2820,7 @@ function kopieren() {
 /* ── Start ───────────────────────────────────────────────────────── */
 function starteMitModus(m) {
   modus = m;
+  bloecke = baueBloecke();
   aktuellerBlock = 1;
   speichern();
   renderBlock();
@@ -2184,6 +2828,8 @@ function starteMitModus(m) {
 }
 
 function init() {
+  bloecke = baueBloecke();
+
   document.querySelectorAll('.karte').forEach(function (k) {
     k.addEventListener('click', function () { starteMitModus(k.dataset.modus); });
   });
@@ -2192,10 +2838,14 @@ function init() {
   el('btnKopieren').addEventListener('click', kopieren);
   el('btnDrucken').addEventListener('click', function () { window.print(); });
   el('btnAendern').addEventListener('click', function () {
+    bloecke = baueBloecke();
     aktuellerBlock = 1;
     renderBlock();
     zeigeBildschirm('bsBloecke');
   });
+
+  // Antworten aus einer älteren Tool-Fassung passen nicht mehr zum Fragenmodell.
+  try { localStorage.removeItem(KEY_ANGABEN_ALT); } catch (e) {}
 
   const gespeichert = gespeichertesLesen();
   if (gespeichert) {
@@ -2206,6 +2856,7 @@ function init() {
     el('btnUebernehmen').addEventListener('click', function () {
       antworten = gespeichert.antworten || {};
       modus = gespeichert.modus === 'detail' ? 'detail' : 'grob';
+      bloecke = baueBloecke();
       aktuellerBlock = 1;
       renderBlock();
       zeigeBildschirm('bsBloecke');
@@ -2213,12 +2864,14 @@ function init() {
     el('btnNeuStarten').addEventListener('click', function () {
       try { localStorage.removeItem(KEY_ANGABEN); } catch (e) {}
       antworten = {};
+      bloecke = baueBloecke();
       el('wiederaufnahme').style.display = 'none';
     });
   }
 }
 
 init();
+
 </script>
 </body>
 </html>
