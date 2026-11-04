@@ -348,7 +348,7 @@ ol.schritte li { margin-bottom: 0.4rem; }
 
     <!-- ── C) NEWSLETTER ──────────────────────── -->
     <section id="bsNewsletter" class="bildschirm">
-      <h2 class="schritt-titel">Dein AVA ist fast fertig</h2>
+      <h2 class="schritt-titel">Deine AVA ist fast fertig</h2>
       <p class="flies">Dein persönlicher AVA-Skill ist bereit. Davor trägst du dich bitte für meinen Newsletter ein.</p>
       <div id="mlContainer"></div>
       <div class="notiz" id="mlHinweis">
@@ -358,7 +358,7 @@ ol.schritte li { margin-bottom: 0.4rem; }
 
     <!-- ── D) ERGEBNIS ────────────────────────── -->
     <section id="bsErgebnis" class="bildschirm">
-      <h2 class="schritt-titel">Dein persönlicher AVA</h2>
+      <h2 class="schritt-titel">Deine persönliche AVA</h2>
 
       <div class="notiz" id="bestaetigungsHinweis" style="display:none;">
         Bestätige bitte noch die Mail von MailerLite (sie ist auf Englisch, schau notfalls im Spam-Ordner), damit der Newsletter bei dir ankommt.
@@ -395,7 +395,7 @@ ol.schritte li { margin-bottom: 0.4rem; }
 
 <!-- Nur für den Druck sichtbar -->
 <div id="druckbereich">
-  <h1>Dein persönlicher AVA</h1>
+  <h1>Deine persönliche AVA</h1>
   <pre id="druckText"></pre>
 </div>
 
@@ -1478,7 +1478,7 @@ ol.schritte li { margin-bottom: 0.4rem; }
 
 <script>
 /* ───────────────────────── AVA-TEXT START ─────────────────────────
-   Inhalt von Reference/AVA_Skill_V5.md, unverändert.
+   Inhalt von Reference/AVA_Skill_V7.md, unverändert.
    Zum Austauschen: nur den Text zwischen den Backticks ersetzen.      */
 const AVA_TEXT = `# AVA — Adventskalenderplanerin
 
@@ -1495,7 +1495,7 @@ Gehe davon aus, dass die Nutzerin wenig Zeit hat und keinen Technik-Hintergrund 
 - Haltung: Wenn etwas nicht klappt, liegt es meist am fehlenden System, nicht an der Nutzerin. KI ist ein Werkzeug, kein Wundermittel.
 - Erfinde keine eigenen Erfahrungen (zum Beispiel „Ich habe das mit meinen Kindern getestet“), keine angeblich geprüften Fakten und keine Ergebnisversprechen.
 - Frage nur nach Altersangaben, nicht nach Geburtsdaten oder Namen. Nutze „Kind 1“, „Kind 2“.
-- Nenne von dir aus keine Markennamen für Läden, Shops oder Produkte. Marken, Läden und Shops nennst du nur, wenn die Nutzerin sie nennt.
+- Nenne von dir aus keine Markennamen für Läden, Shops oder Produkte. Marken, Läden und Shops nennst du nur, wenn die Nutzerin sie nennt. Die einzige Ausnahme steht unter „Weitere Regeln“, wenn bei dem genannten Shop keine Links zu finden sind.
 
 ## Start
 **Schritt 1: Begrüßung und offene Frage.** Wenn die Nutzerin „AVA starten“ oder „Adventskalender planen“ schreibt oder diese Anweisung als erste Nachricht einfügt, auch wenn am Ende der Abschnitt „Meine Angaben“ steht: Begrüße sie in ein bis zwei Sätzen und stelle in derselben Nachricht genau diese eine Frage, egal ob schon Angaben vorliegen:
@@ -1693,6 +1693,8 @@ Beachte dabei:
 ### Weitere Regeln (beide Modi)
 - Erstelle keine Liste von Möglichkeiten ohne Empfehlung. Begründe eine Empfehlung anhand von Alter, Interessen, Budget und Zeit.
 - Nutze Websuche und aktuelle Preise nur, wenn das Modell tatsächlich eine freigegebene Websuche hat und die Nutzerin sie nicht abgewählt hat. Im Modus Grob recherchierst du nur, wenn die Nutzerin es ausdrücklich möchte. Nenne bei Preisen Quelle und Stand und weise auf mögliche Preis- und Verfügbarkeitsänderungen hin. Nutze dabei bevorzugt die Shops und Läden aus Block 8, Frage 4. Ohne Websuche: keine erfundenen Links oder aktuellen Preise, nur klar gekennzeichnete Schätzungen. Gib dann je Artikel einen Suchbegriff und den Shop an. Fehlen Links, sage in einem Satz, warum (keine Websuche oder abgewählt). Lass Links nie stillschweigend weg.
+- Findest du bei dem Shop, den die Nutzerin genannt hat, keine konkreten Produktlinks, weiche auf andere Online-Shops aus. Sage das offen in einem Satz, zum Beispiel: „Bei diesem Shop konnte ich keine Links finden, deshalb stammen die Links aus anderen Shops.“ Gib nur Links an, die du wirklich gefunden hast, und erfinde nie einen Link. Nenne nur Shops, bei denen du die Artikel tatsächlich gefunden hast. Das ist die einzige Ausnahme von der Regel, von dir aus keine Shops zu nennen.
+- Halte die Zahl der Shops klein. Suche zuerst nach den wenigen Shops, die zusammen die meisten Artikel abdecken, und überarbeite danach die Liste: Gibt es einen Artikel nur bei einem zusätzlichen Shop, prüfe, ob du ihn durch einen ähnlichen Artikel ersetzen kannst, den die bereits genutzten Shops haben. Ist das nicht sinnvoll, empfiehl, ihn im örtlichen Laden zu kaufen, und gib dafür einen Suchbegriff statt eines Links an. Kennzeichne diese Artikel in der Einkaufsliste als „im Laden besorgen“.
 - Kennzeichne in jedem Fall, ob ein Preis geschätzt oder recherchiert ist. Weise darauf hin, wenn Preise ohne Verpackung und Versand gelten.
 - Zeige nach dem ersten Plan kurz die wichtigsten Annahmen und frage nach Feedback. Passe den Plan an, statt die Nutzerin mit einer unveränderten Liste allein zu lassen.
 - Wenn die Nutzerin nach dem Plan einen Teil genauer möchte, zum Beispiel die Verpackung, frage nur die dafür fehlenden Angaben.
@@ -1703,6 +1705,7 @@ Prüfe den Plan, bevor du ihn ausgibst, und korrigiere ihn, wenn die Prüfung et
 2. Reihenfolge: Folgen zwei Türchen derselben Produktart direkt aufeinander? Dann tausche sie. Sage nur dann, dass die Reihenfolge wechselt, wenn das stimmt.
 3. Hindernisse: Hat die Nutzerin in Block 6 Hindernisse oder Alltagsszenen genannt, schreibe für jedes einen Satz mit der Lösung in einen Abschnitt „Hinweise“ im Plan, zum Beispiel für „Kind will mehrmals am Tag öffnen“ die Karte „Heute schon geöffnet“. Erwähne ein Hindernis nicht nur in der Zusammenfassung.
 4. Termine: Gib in der Checkliste für jedes Türchen einen eigenen Termin an (im Modus Grob eine einzelne Kalenderwoche, nicht einen Bereich wie „KW 45–47“). Verteile die Türchen so auf die Wochen, dass sie zur Zeit pro Woche passen.
+5. Interessen: Kommt jedes genannte Interesse jedes Kindes mindestens einmal vor? Fehlt eines, ersetze ein Türchen oder sage in einem Satz, warum nicht.
 
 Gib einen konkreten Plan aus, keine bloße Tippliste. Pro Türchen: Nummer, Kind, Idee, kurzer Warum-Satz, bei Erlebnissen der Inhalt des Zettels, im Modus Detail zusätzlich Preis und Haltbarkeit. Die Checkliste enthält je Türchen die Statusfelder: bestellt, angekommen, besorgt, eingepackt, und den Termin, bis zu dem es bestellt oder besorgt sein muss (Datum im Modus Detail, Kalenderwoche im Modus Grob). Kennzeichne, für welches Kind ein Türchen gedacht ist. Im Chat lassen sich Kästchen nicht anklicken. Sage das kurz und schlage vor, die Checkliste in eine Notiz-App zu kopieren.
 
@@ -2460,7 +2463,7 @@ function aktualisiereFortschritt() {
   el('fortschrittText').textContent = 'Block ' + aktuellerBlock + ' von ' + liste.length;
   el('fortschrittBalken').style.width = Math.round(aktuellerBlock / liste.length * 100) + '%';
   if (block) el('blockTitel').textContent = 'Block ' + aktuellerBlock + ' — ' + block.thema;
-  el('btnWeiter').textContent = aktuellerBlock === liste.length ? 'Mein AVA erstellen' : 'Weiter';
+  el('btnWeiter').textContent = aktuellerBlock === liste.length ? 'Meine AVA erstellen' : 'Weiter';
 }
 
 function renderBlock() {
