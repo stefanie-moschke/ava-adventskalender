@@ -1560,7 +1560,7 @@ Gehe die Blöcke in dieser Reihenfolge durch. Im Modus Grob stellst du nur die F
 
 **Block 4 — Rahmen**
 1. Gesamtbudget inklusive neuer Verpackung: A) bis 50 €, B) 50–100 €, C) 100–150 €, D) über 150 €, E) eigener Betrag. (Grob)
-2. Nur bei mehreren Kalendern: Gilt das Budget A) für alle Kalender zusammen oder B) pro Kalender? (Grob)
+2. Nur bei mehreren Kalendern: Gilt das Budget A) für alle Kalender zusammen, B) pro Kalender oder C) eigene Antwort? (Grob)
 3. Zeit pro Woche zum Planen, Besorgen und Vorbereiten (pro Woche, nicht gesamt): A) bis 15 Min., B) 30 Min., C) 60 Min., D) mehr als 60 Min., E) eigene Antwort. (Grob)
 4. Wann beginnt das Besorgen? A) diese Woche, B) in den nächsten zwei Wochen, C) erst kurz vor dem Start des Kalenders, D) eigene Antwort. (Grob)
 
@@ -1585,13 +1585,13 @@ Gehe die Blöcke in dieser Reihenfolge durch. Im Modus Grob stellst du nur die F
 **Block 8 — Recherche und Einkauf (nur Detail)**
 Wenn das verwendete KI-Modell keine freigegebene Websuche hat: Sage das in einem Satz, frage nur die Fragen 3 und 4, kennzeichne alle Preise als grobe Schätzung und gib statt Links je Artikel einen Suchbegriff und den Shop aus Frage 4 an.
 Hat das Modell eine Websuche und die Nutzerin antwortet nicht auf Frage 1 oder 2, gilt jeweils B.
-1. Preise: A) grobe Schätzung, B) aktuelle Online-Preise (nur mit Websuche).
-2. Produktlinks: A) keine Links, B) konkrete Artikel verlinken (nur mit Websuche).
-3. Besorgung: A) online, B) im Laden, C) beides.
+1. Preise: A) grobe Schätzung, B) aktuelle Online-Preise (nur mit Websuche), C) eigene Antwort.
+2. Produktlinks: A) keine Links, B) konkrete Artikel verlinken (nur mit Websuche), C) eigene Antwort.
+3. Besorgung: A) online, B) im Laden, C) beides, D) eigene Antwort.
 4. Wo kaufst du gern ein? Nenne Online-Shops, bei denen du gern bestellst, und Läden in deiner Nähe. Freie Antwort oder „egal“.
 
 **Block 9 — Ausgabe (Grob und Detail)**
-1. Format. Die Checkliste gehört in jedem Fall zum Plan. A) strukturierte Antwort im Chat, B) dokumentfertiger Text zum Kopieren, C) kurzer Plan mit Schwerpunkt auf der Abhak-Liste (bestellt, angekommen, besorgt, eingepackt), D) zusätzlich als Datei (Word oder PDF), falls mein KI-Tool das kann.
+1. Format. Die Checkliste gehört in jedem Fall zum Plan. A) strukturierte Antwort im Chat, B) dokumentfertiger Text zum Kopieren, C) kurzer Plan mit Schwerpunkt auf der Abhak-Liste (bestellt, angekommen, besorgt, eingepackt), D) zusätzlich als Datei (Word oder PDF), falls mein KI-Tool das kann, E) eigene Antwort.
 2. Nur wenn Erlebnis-Türchen geplant sind: Erlebniszettel zum Ausdrucken? A) nein, B) ja, vier pro A4-Seite, nur Text, C) ja, vier pro A4-Seite mit Bildern, falls mein KI-Tool Bilder erstellen kann, D) eigene Antwort.
 
 ## Planungslogik
@@ -1756,7 +1756,7 @@ const KEY_NEWSLETTER = 'ava_newsletter_ok';
 
 /* ── Fragenmodell ────────────────────────────────────────────────── */
 /* Reihenfolge, Fragetexte und Optionen stammen wörtlich aus Block 1–9
-   von Reference/AVA_Skill_V3.md.
+   von Reference/AVA_Skill_V8.md.
    typ: kinder | text | textarea | radio | checkbox
    optionen:    { k: Buchstabe, text: vollständiger Optionstext, frei: true }
    nurDetail:   nur im Modus Detail anzeigen
@@ -1933,7 +1933,8 @@ const BLOCK_VORLAGEN = [
         bedingung: mehrereKalender,
         optionen: [
           { k: 'A', text: 'für alle Kalender zusammen' },
-          { k: 'B', text: 'pro Kalender' }
+          { k: 'B', text: 'pro Kalender' },
+          { k: 'C', text: 'eigene Antwort', frei: true }
         ],
         ausgabe: 'Budget gilt'
       },
@@ -2159,7 +2160,8 @@ const BLOCK_VORLAGEN = [
         nurDetail: true,
         optionen: [
           { k: 'A', text: 'grobe Schätzung' },
-          { k: 'B', text: 'aktuelle Online-Preise (nur mit Websuche)' }
+          { k: 'B', text: 'aktuelle Online-Preise (nur mit Websuche)' },
+          { k: 'C', text: 'eigene Antwort', frei: true }
         ],
         ausgabe: 'Preise'
       },
@@ -2171,7 +2173,8 @@ const BLOCK_VORLAGEN = [
         nurDetail: true,
         optionen: [
           { k: 'A', text: 'keine Links' },
-          { k: 'B', text: 'konkrete Artikel verlinken (nur mit Websuche)' }
+          { k: 'B', text: 'konkrete Artikel verlinken (nur mit Websuche)' },
+          { k: 'C', text: 'eigene Antwort', frei: true }
         ],
         ausgabe: 'Produktlinks'
       },
@@ -2184,7 +2187,8 @@ const BLOCK_VORLAGEN = [
         optionen: [
           { k: 'A', text: 'online' },
           { k: 'B', text: 'im Laden' },
-          { k: 'C', text: 'beides' }
+          { k: 'C', text: 'beides' },
+          { k: 'D', text: 'eigene Antwort', frei: true }
         ],
         ausgabe: 'Besorgung'
       },
@@ -2213,7 +2217,8 @@ const BLOCK_VORLAGEN = [
           { k: 'A', text: 'strukturierte Antwort im Chat' },
           { k: 'B', text: 'dokumentfertiger Text zum Kopieren' },
           { k: 'C', text: 'kurzer Plan mit Schwerpunkt auf der Abhak-Liste (bestellt, angekommen, besorgt, eingepackt)' },
-          { k: 'D', text: 'zusätzlich als Datei (Word oder PDF), falls mein KI-Tool das kann' }
+          { k: 'D', text: 'zusätzlich als Datei (Word oder PDF), falls mein KI-Tool das kann' },
+          { k: 'E', text: 'eigene Antwort', frei: true }
         ],
         ausgabe: 'Ausgabeformat'
       },
@@ -2681,8 +2686,10 @@ function antwortText(f) {
   ks.forEach(function (k) {
     const o = f.optionen.find(function (x) { return x.k === k; });
     if (!o) return;
+    // „eigene Antwort“ ohne Text zählt wie ein leeres Feld: Option entfällt.
+    if (o.frei && !frei) return;
     let s = o.k + ') ' + o.text;
-    if (o.frei && frei) s += ': ' + frei;
+    if (o.frei) s += ': ' + frei;
     teile.push(s);
   });
   return teile.length ? teile.join(', ') : 'nicht angegeben';
